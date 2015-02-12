@@ -11,8 +11,7 @@
 <div id="login-box">
 	<H1 class="logo"><img src="/images/w-admin/logo.png"></H1>
     <div class="ajax-response"></div>
-    <?php echo form_open('login','id="login" name="form" autocomplete="off"'); ?>
-    <form method="post" id="login" name="form" autocomplete="off"> 
+        <?php echo form_open('login','id="login" name="form" autocomplete="off"'); ?>
     	<p>
             帳號<br>
             <input type="text" name="username" class="column regular-text-1" value="<?php echo $remUser;?>">

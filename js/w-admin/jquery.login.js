@@ -26,7 +26,7 @@ $(function() {
 			},			
 		},
 	});
-	ajaxSubmit(false, false)
+	ajaxSubmit();
 	
 	$("#captcha").click(function(){
 		var d = new Date();
@@ -41,7 +41,7 @@ $(function() {
 				var formData=$("form#"+$(this).data("page")).serialize();	
 				$.ajax({ 
 					type: "POST", 
-					url: location.href, 
+					url: $(this).parents("form").attr("action"), 
 					dataType: "json", 
 					data: formData,
 					timeout:10000,     //ajax请求超时时间10秒     								
