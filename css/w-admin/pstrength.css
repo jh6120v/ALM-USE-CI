@@ -1,0 +1,42 @@
+@charset "utf-8";
+/* CSS Document */
+/*  ADVANCED STYLES */
+.testresult, .uCheck {
+	width:50%;
+	display:inline-block;
+	font-weight: bold;
+	color: #666;
+	margin-top:2px;
+	text-align:center;
+	box-sizing:border-box;
+	-webkit-box-sizing:border-box;
+	-moz-box-sizing:border-box;
+	display:block;
+	opacity:0.95;
+}
+.testresult span {
+	padding: 6px;
+}
+.shortPass, .userNOOK {
+	background: #edabab;
+	border: 1px solid #bc0000;
+}
+.badPass {
+	background: #edabab;
+	border: 1px solid #bc0000;
+}
+.goodPass {
+	background: #ede3ab;
+	border: 1px solid #bc9f00;
+}
+.strongPass, .userOK {
+	background: #d3edab;
+	border: 1px solid #73bc00;
+}
+
+@media screen and (max-width:639px) {
+	.testresult, .uCheck {
+		width:100%;
+	}
+
+}

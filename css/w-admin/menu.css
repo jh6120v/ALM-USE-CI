@@ -1,0 +1,174 @@
+@charset "utf-8";
+/* CSS Document */
+/* 
+========================= 選 單 設 定 ========================= 
+*/
+#w-menu {
+	width:100%;
+}
+ul.w-menu li {
+	float:left;
+	width:100%;
+	position:relative;
+}
+
+ul.w-menu li > a.w-menu-title {
+	float:left;
+	width:100%;
+	display:block;
+	font-size:15px;
+	color:#FFF;
+	line-height:18px;
+	position:relative;
+	box-sizing:border-box;
+	-moz-box-sizing:border-box;
+	-webkit-box-sizing:border-box;
+}
+ul.w-menu li > a.w-menu-title > span.icon {
+	float:left;
+	width:36px;
+	height:34px;
+	text-align:center;
+	line-height:34px;
+	font-size:18px;	
+}
+ul.w-menu li > a.w-menu-title > span.text {
+	line-height:34px;
+}
+
+ul.w-menu li > ul.w-submenu {  
+	width:100%;
+	z-index:5;
+	background:#333;
+	top:0;
+	left:100%;	
+}
+ul.w-menu li.has-select > a.w-menu-title {
+	background:#0074a3;
+}
+ul.w-menu li.has-select > a:after, ul.w-menu li.none-select:hover > a:after {
+	right: 0;
+	border: solid 8px transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+	border-right-color: #F6F6F6;
+	top: 50%;
+	margin-top: -8px
+}
+ul.w-menu li.has-select > ul.w-submenu {  /* 若是當頁類別，則子選單顯示 */
+	display:block;
+	float:left;
+	position:static;
+}
+
+ul.w-menu li.none-select:hover > a.w-menu-title {
+	background:#111;
+	color:#2da2cd;
+}
+ul.w-menu li.none-select:hover > a:after {
+	border-right-color: #333;
+}
+ul.w-menu li.none-select > ul.w-submenu {  /* 非當頁選單，隱藏並設為浮動*/
+	display:none;
+	position:absolute;
+}
+ul.w-menu li.none-select:hover > ul.w-submenu {  /* 非當頁選單在hover時，子選單出現 */
+	display:block;
+}
+
+
+/* 
+→ 子選單共用設定 
+*/
+ul.w-menu li > ul.w-submenu a {
+	display:block;
+	color:#bbb;
+	font-size:13px;
+}
+ul.w-menu li > ul.w-submenu a:hover {
+	color:#2da2cd;
+}
+
+ul.w-menu li > ul.w-submenu li {
+	line-height:30px;
+	padding:0 5px 0 12px;
+	box-sizing:border-box;
+	-webkit-box-sizing:border-box;
+	-moz-box-sizing:border-box;
+}
+ul.w-menu li > ul.w-submenu li.w-submenu-title {
+	display:none;
+	line-height:34px;
+}
+
+@media screen and (min-width: 768px) and (max-width:979px) {	
+	/* 
+	========================= 主 選 單 設 定 ========================= 
+	*/
+	ul.w-menu li > ul.w-submenu {  
+		width:160px;
+	}
+	ul.w-menu li.has-select > a:after, ul.w-menu li.none-select:hover > a:after {
+		border-width:4px;
+		margin-top:-4px;
+	}
+	ul.w-menu li.has-select:hover > a:after {
+		border:0px;
+	}
+	ul.w-menu li.has-select:hover > ul.w-submenu {  /* 讓當頁的選單所也能在hover時，子選單出現 */
+		display:block;
+	}
+	ul.w-menu li.has-select > ul.w-submenu {  /* 讓當頁的選單隱藏 */
+		display:none;
+		position:absolute;
+	}
+	ul.w-menu li.has-select > ul.w-submenu > li.w-submenu-title {
+		background:#0074a3;
+	}
+	
+	/* 
+	→ 子選單共用設定 
+	*/
+	ul.w-menu li a > span.text {
+		display:none;
+	}
+	ul.w-menu li ul.w-submenu li.w-submenu-title {
+		display:block;
+	}
+	
+}
+
+@media screen and (max-width:767px) {	
+	/* 
+	========================= 主 選 單 設 定 ========================= 
+	*/
+	ul.w-menu li > ul {
+		padding:7px 0;
+	}
+	ul.w-menu li > a.w-menu-title, ul.w-menu li > ul.w-submenu a {
+		font-size:16px;
+	}
+	ul.w-menu li > a.w-menu-title {
+		padding:5px;
+	}
+	ul.w-menu li > ul.w-submenu a {
+		line-height:20px;
+	}
+	ul.w-menu li > ul.w-submenu li {
+		padding:10px 10px 10px 20px;		
+	}	
+	ul.w-menu li.none-select:hover > a:after {
+		border:0px;
+	}	
+	ul.w-menu li.none-select:hover > ul.w-submenu {  /* 讓擁有none-select樣式的元素，禁止在hover時讓子選單出現 */
+		display:none;
+	}
+	ul.w-menu li.none-select.show > ul.w-submenu {  /* 讓擁有show樣式選單的子選單顯示*/
+		display:block;
+		float:left;
+		position:static;		
+	}	
+}

@@ -1,0 +1,66 @@
+@charset "utf-8";
+@import url("common.css");
+/* CSS Document */
+body {
+	background:url(../../images/w-admin/default-bg.png) repeat;
+}
+#login-box {
+	width:300px;
+	padding:8% 0 0;
+	margin:auto;
+}
+#login-box img {
+	cursor:pointer;
+}
+#login-box H1.logo {
+	text-align:center;
+	margin-bottom:20px;
+}
+#login-box div.ajax-response {
+	display:none;
+	border-left:4px solid #F00;
+	padding:5px 10px;
+	margin:10px 0;
+	line-height:1.5em;
+	box-shadow:0 1px 1px 0 rgba(0,0,0,.1);
+	background: rgb(238,238,238); /* Old browsers */
+	background: -moz-linear-gradient(top, rgba(238,238,238,1) 0%, rgba(238,238,238,1) 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(238,238,238,1)), color-stop(100%,rgba(238,238,238,1))); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, rgba(238,238,238,1) 0%,rgba(238,238,238,1) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, rgba(238,238,238,1) 0%,rgba(238,238,238,1) 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, rgba(238,238,238,1) 0%,rgba(238,238,238,1) 100%); /* IE10+ */
+	background: linear-gradient(to bottom, rgba(238,238,238,1) 0%,rgba(238,238,238,1) 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eeeeee', endColorstr='#eeeeee',GradientType=0 ); /* IE6-9 */
+}
+#login-box form {
+	display:block;
+	padding:20px;
+	background:#FFF;
+	color:#999;
+	box-shadow: 0 1px 3px rgba(0,0,0,.13);
+	-moz-box-shadow: 0 1px 3px rgba(0,0,0,.13);
+	-webkit-box-shadow: 0 1px 3px rgba(0,0,0,.13);
+}
+#login-box p {
+	display:block;
+	line-height:2em;
+	font-size:15px;
+	margin-bottom:10px;
+}
+#login-box p.botton {
+	text-align:right;
+}
+#login-box p.copyright {
+	text-align:center;
+	line-height:2em;
+	margin-top:30px;
+}
+#login-box p.copyright, #login-box p.copyright a {
+	color:#666;
+}
+.regular-text-1 {
+	width:100%;
+}
+.regular-text-2 {
+	width:73%;
+}

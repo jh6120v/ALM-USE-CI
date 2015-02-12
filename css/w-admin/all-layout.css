@@ -1,0 +1,427 @@
+@charset "utf-8";
+/* CSS Document */
+@import url("common.css");
+/*
+========================= 全 域 設 定 =========================
+*/
+html {
+	height:100%;
+	padding-top:30px;
+	box-sizing:border-box;
+	-webkit-box-sizing:border-box;
+	-moz-box-sizing:border-box;
+}
+body {
+	height:100%;
+	background:#F6F6F6;
+}
+#loading {
+	position:fixed;
+	left:0;
+	top:0;
+	bottom:0;
+	right:0;
+	display:none;
+	background:url(../images/loading-spinning-bubbles.svg) center center no-repeat #000;
+	z-index:1000000;
+	filter:Alpha(Opacity=20, FinishOpacity=20, Style=2); /* IE */
+	-moz-opacity:0.8; /* Moz + FF */
+	opacity:0.8; /* CSS3 */
+	cursor:pointer;
+}
+
+/*
+========================= 控 制 台 =========================
+→ 登 入 紀 錄
+*/
+.home-record, .home-terms {
+	width:100%;
+	padding:10px;
+	background:#fff;
+	border:1px solid #e5e5e5;
+	box-shadow:0 1px 1px rgba(0,0,0,.04);
+	margin-top:10px;
+	box-sizing:border-box;
+	-webkit-box-sizing:border-box;
+	-moz-box-sizing:border-box;
+	-o-box-sizing:border-box;
+}
+.home-record > H1, .home-terms > H1 {
+	font-size:15px;
+	line-height:2em;
+}
+.home-terms > H1 {
+	border-bottom:1px solid #e5e5e5;
+	margin-bottom:10px;	
+}
+.home-terms > div {
+	height:200px;	
+	line-height:1.5em;
+	overflow-y:scroll;	
+}
+
+/* 
+========================= 主 要 顯 示 畫 面 =========================
+→ 主 架 構
+*/
+#w-wrap {
+	width:100%;
+	height:auto;
+	min-height:100%;
+	position:relative;
+}
+#w-content {
+	height:100%;
+}
+#w-content, #w-footer {
+	margin-left:180px;
+}
+#w-body {
+	position:relative;
+}
+#w-body-content {
+	padding-bottom:65px;
+	width:100%;
+}
+#w-body-content > div.wrap {
+	padding:10px 20px 0 0;
+}
+#w-body-content > div.wrap > H1 {
+	font-size:23px;
+	padding:9px 15px 4px 0;
+	line-height:30px;
+	font-weight:400;
+}
+#w-body-content > div.wrap > H1 a {
+	display:inline-block;
+	margin-left:10px;
+	padding:0 10px;
+	background:#e0e0e0;
+	color:#2da2cd;
+	font-size:15px;
+	font-weight:bold;
+	vertical-align:top;
+}
+#w-body-content > div.wrap > H1 a:hover {
+	background:#2da2cd;
+	color:#FFF;
+}
+#w-body-content > div.wrap > em {
+	padding:5px 0;
+	display:block;
+	color:#090;
+}
+#w-body-content > div.wrap > div.ajax-response {
+	display:none;
+	border-left:4px solid #F00;
+	padding:5px 10px;
+	margin:10px 0;
+	line-height:1.5em;
+	box-shadow:0 1px 1px 0 rgba(0,0,0,.1);
+	background: rgb(238,238,238); /* Old browsers */
+	background: -moz-linear-gradient(top, rgba(238,238,238,1) 0%, rgba(238,238,238,1) 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(238,238,238,1)), color-stop(100%,rgba(238,238,238,1))); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, rgba(238,238,238,1) 0%,rgba(238,238,238,1) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, rgba(238,238,238,1) 0%,rgba(238,238,238,1) 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, rgba(238,238,238,1) 0%,rgba(238,238,238,1) 100%); /* IE10+ */
+	background: linear-gradient(to bottom, rgba(238,238,238,1) 0%,rgba(238,238,238,1) 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eeeeee', endColorstr='#eeeeee',GradientType=0 ); /* IE6-9 */
+}
+#w-body-content > div.wrap form > p.submit {
+	padding-top:15px;
+}
+
+/*
+→ 資 料 列 表 
+*/
+.list-nav {
+	margin:5px 0;
+	height:33px;
+	line-height:30px;
+}
+.list-nav > .batch-act, .list-nav > .other-act {
+	float:left;
+	margin-right:8px;
+}
+.list-nav > .pages {
+	float:right;
+	margin:2px 0;
+}
+.list-table {
+	width:100%;
+	border-collapse:separate;
+	margin:5px 0;
+	border: 1px solid #e5e5e5;
+	-webkit-box-shadow: 0 1px 1px rgba(0,0,0,.04);
+	box-shadow: 0 1px 1px rgba(0,0,0,.04);
+}
+.list-table thead th {
+	border-bottom:1px solid #e1e1e1;
+}
+.list-table tfoot th {
+	border-top:1px solid #e1e1e1;	
+	border-bottom:0;	
+}
+.list-table tbody tr:nth-child(odd) {
+	background:#FFF;
+}
+.list-table tbody tr:nth-child(even) {
+	background:#f9f9f9;
+}
+.list-table th {
+	background:#F3F3F3;
+	text-align:left;
+	font-weight:400;
+	font-size:15px;
+	line-height:18px;
+	padding:8px 10px;	
+}
+.list-table td {
+	line-height:22px;
+	padding:8px 10px;
+	vertical-align:top;	
+}
+tbody tr > td.column-title > div.action {
+	color:#D9D9D9;
+	font-size:10px;
+}
+tbody tr:hover > td.column-title > div.action {
+	width:auto;
+	min-width:1px;
+}
+td.column-title > H1 {
+	margin-bottom:4px;
+	line-height:18px;
+}
+td.column-title > H1 a {
+	color:#0074a3;
+}
+td.column-title > div.action {
+	width:0px;
+	height:20px;	
+	line-height:18px;
+	overflow:hidden;
+	display:block;
+}
+td.column-title > div.action a {
+	font-size:14px;
+}
+td.column-title > div.action a:hover {
+	color:#D9D9D9;
+}
+td.column-title span.green a {
+	color:#090;
+}
+td.column-title span.red a {
+	color:#F00;
+}
+
+.mobile td.column-title > div.action {
+	width:auto;
+	min-width:1px;
+}
+th.column-no, th.column-cb, td.column-no, td.column-cb  {
+	width:35px;
+	text-align:center;
+}
+.column-sort, .column-orderby, .column-date, .column-level {
+	width:10%;
+}
+.column-name, .column-time, .column-ip, .column-place, .column-url, .column-thumbnail {
+	width:15%;
+}
+.column-nodata {
+	text-align:center;
+}
+
+/* 
+→ 表 單 表 格 
+*/
+.form-table, .form-table td, .form-table th {
+	font-size:15px;
+}
+.form-table {
+	width:100%;
+	border-collapse:collapse;
+	margin-top:5px;
+}
+.form-table th, .form-table td {
+	vertical-align:top;	
+	box-sizing:border-box;
+	-webkit-box-sizing:border-box;
+	-moz-box-sizing:border-box;
+	line-height:33px;
+}
+.form-table th {
+	text-align:left;
+	width:200px;
+	padding:15px 10px 15px 0;
+	font-weight:normal;
+}
+.form-table td {
+	padding:15px 10px;
+}
+.form-table td.all {
+	padding:0;
+}
+
+/* 
+========================= 左 側 選 單 設 置 =========================
+→ 細 節 在 menu.css 
+*/
+#w-menu-wrap {
+	float:left;
+	color:#FFF;
+	position:relative;
+	margin-top:15px;
+	z-index:1;
+}
+#w-menu-wrap, #w-menu-back {
+	width:160px;
+	background:#222;
+}
+#w-menu-back {
+	position:absolute;
+	top:0;
+	bottom:0;
+	z-index:-1;
+}
+.rwd #w-menu-wrap, .rwd #w-menu-back {
+	display:block;
+	position:absolute;
+	left:0;
+	top:0;
+}
+
+/* 
+========================= 底 部 設 置 ========================= 
+*/
+#w-footer {
+	position:fixed;
+	bottom:0;
+	left:0;
+	right:0;
+	display:none;
+	padding:10px 0;
+	margin-right:20px;
+	color:#777;
+	background:#F6F6F6;
+	opacity:0.9;
+}
+span.gotop {
+	float:right;
+}
+@media screen and (max-width:979px) {
+	/* 
+	========================= 主 要 顯 示 畫 面 =========================
+	→ 資 料 列 表 
+	*/
+	tbody tr > td.column-title > div.action {
+		width:auto;
+		min-width:1px;
+	}	
+}
+@media screen and (min-width: 768px) and (max-width:979px) {
+	/* 
+	========================= 主 要 顯 示 畫 面 =========================
+	→ 主 架 構 
+	*/
+	#w-content, .rwd #w-content, #w-footer, .rwd #w-footer {
+		margin-left:56px;
+	}
+	
+	/* 
+	→ 表 單 表 格
+	 */
+	.form-table th {
+		width:150px;
+	}
+	
+	/* 
+	========================= 左 側 選 單 設 置 ========================= 
+	→ 細 節 在 menu.css 
+	*/
+	#w-menu-wrap, #w-menu-back {
+		width:36px;
+	}
+	
+}
+
+@media screen and (max-width:767px) {
+	/*
+	========================= 全 域 設 定 =========================
+	*/
+	html {
+		padding-top:0;
+	}
+	body {
+		overflow-x:hidden;
+	}
+	
+	/*
+	========================= 主 要 顯 示 畫 面 =========================
+	→ 主 架 構 
+	*/
+	#w-content {
+		margin-left:0px;
+		padding-left:10px;
+		position:relative;
+		overflow:hidden;
+		padding-top:45px;
+	}
+	.rwd #w-body {
+		right:-190px;
+	}
+
+	/* 
+	→ 資 料 列 表 
+	*/
+	.nav-top {
+		height:auto;
+	}
+	.nav-top > .batch-act, .nav-top > .pages {
+		display:none;
+	}
+	.list-table thead th, .list-table tfoot th, .list-table tbody td {
+		padding:5px;
+	}
+	.column-sort, .column-orderby, .column-name, .column-time, .column-ip, .column-level, .column-url, .column-thumbnail {
+		display:none;
+	}
+	.column-date {
+		width:80px;
+	}
+	
+	/* 
+	→ 表 單 表 格 
+	*/
+	.form-table th, .form-table td {
+		width:100%;
+		display:block;
+		padding:5px 0;
+	}
+	
+	/* 
+	========================= 左 側 選 單 設 置 ========================= 
+	→ 細 節 在 menu.css 
+	*/
+	#w-menu-wrap, #w-menu-back {
+		width:190px;
+		display:none;
+	}
+	#w-menu-wrap {
+		margin-top:60px;
+	}
+	#w-body-content > div.wrap {
+		padding:10px 10px 0 0;
+	}
+	
+	/* 
+	========================= 底 部 設 置 ========================= 
+	*/
+	#w-footer {
+		padding:10px;
+		margin:0;
+		position:fixed;
+	}
+}
