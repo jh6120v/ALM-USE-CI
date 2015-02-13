@@ -36,12 +36,15 @@ class Login extends CI_Controller {
 	public function loginCheck() {
 		$this->load->library('form_validation');
 		if ($this->input->is_ajax_request()) {
-			$this->form_validation->set_rules('username', '帳號', 'required');
+			$this->form_validation->set_rules('username', '帳號', 'required|numeric');
 			$this->form_validation->set_rules('password', '密碼', 'required');
 			$this->form_validation->set_rules('captcha', '驗證碼', 'required|callback_captchaCheck');
 
 			if ($this->form_validation->run()) {
 				// model操作
+				$username = $this->input->post('username, true');
+				$password = $this->input->post('password, true');
+
 				$this->message->getAjaxMsg(array(
 					"success" => 1,
 					"msg" => "success!",
