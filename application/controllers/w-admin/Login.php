@@ -6,10 +6,9 @@ class Login extends CI_Controller {
 	public function index() {
 		$this->load->helper(array(
 			'cookie',
-			'form',
 		));
 		// 判斷是否為登入狀態
-		if ($this->common->checkLoginStatus() == true) {
+		if ($this->common->checkLoginStatus() == TRUE) {
 			redirect('/w-admin/home', 'refresh');
 		}
 		$data = array(
@@ -23,8 +22,8 @@ class Login extends CI_Controller {
 			"quantity" => 4,
 			"height" => 33,
 			"fontsize" => 20,
-			"border" => true,
-			"line" => false,
+			"border" => TRUE,
+			"line" => FALSE,
 			"bgcolor" => array(0, 153, 204),
 		);
 		$this->load->library('captcha', $params);
@@ -36,14 +35,14 @@ class Login extends CI_Controller {
 	public function loginCheck() {
 		$this->load->library('form_validation');
 		if ($this->input->is_ajax_request()) {
-			$this->form_validation->set_rules('username', '帳號', 'required|numeric');
+			$this->form_validation->set_rules('username', '帳號', 'required|min_length[5]');
 			$this->form_validation->set_rules('password', '密碼', 'required');
 			$this->form_validation->set_rules('captcha', '驗證碼', 'required|callback_captchaCheck');
 
 			if ($this->form_validation->run()) {
 				// model操作
-				$username = $this->input->post('username, true');
-				$password = $this->input->post('password, true');
+				$username = $this->input->post('username', TRUE);
+				$password = $this->input->post('password', TRUE);
 
 				$this->message->getAjaxMsg(array(
 					"success" => 1,
@@ -62,9 +61,9 @@ class Login extends CI_Controller {
 		$captcha = $this->session->userdata('captcha');
 		if ($str != $captcha) {
 			$this->form_validation->set_message('captchaCheck', '驗證碼錯誤!');
-			return false;
+			return FALSE;
 		} else {
-			return true;
+			return TRUE;
 		}
 	}
 	public function logout() {

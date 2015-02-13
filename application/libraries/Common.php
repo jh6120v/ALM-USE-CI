@@ -10,9 +10,9 @@ class Common {
 	// 檢查登入狀態
 	function checkLoginStatus() {
 		if ($this->CI->session->userdata('status') && $this->CI->session->userdata('status') == "success") {
-			return true;
+			return TRUE;
 		} else {
-			return false;
+			return FALSE;
 		}
 	}
 
