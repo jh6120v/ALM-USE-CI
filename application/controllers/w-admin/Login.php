@@ -34,7 +34,7 @@ class Login extends CI_Controller {
 		ImageDestroy ( $img );
 	}
 	function loginCheck() {
-		echo 'test';
+		echo '123';
 	}
 	function logout() {
 		
