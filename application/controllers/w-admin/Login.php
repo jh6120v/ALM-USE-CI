@@ -41,6 +41,7 @@ class Login extends CI_Controller {
 
 			if ($this->form_validation->run()) {
 				// model操作
+				$this->load->model('login');
 				$username = $this->input->post('username', TRUE);
 				$password = $this->input->post('password', TRUE);
 
