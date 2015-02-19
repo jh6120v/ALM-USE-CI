@@ -67,6 +67,7 @@ class Login extends CI_Controller {
 		}
 	}
 	public function logout() {
-
+		$this->session->sess_destroy();
+		$this->message->getMsg($this->message->msg['login'][8], '/w-admin');
 	}
 }

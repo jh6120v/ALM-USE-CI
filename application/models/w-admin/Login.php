@@ -1,7 +1,7 @@
 <?php
 define("salt", "cb65b779772a8edb4c62a1b32e2ab673"); //原始CuZ1fho8n7xm
 class Login extends CI_Model {
-	public $message = array(
+	public $msg = array(
 		"帳號停權",
 		"登入成功",
 		"密碼錯誤",
@@ -29,11 +29,11 @@ class Login extends CI_Model {
 								"pID" => $row->id,
 								"name" => $row->name,
 								"username" => $row->username,
-								"message" => $this->message[0],
+								"message" => $this->msg[0],
 							);
 							$this->db->insert('account_record', $data);
 
-							return array(FALSE, $this->message->msg['login'][8]);
+							return array(0, $this->message->msg['login'][8]);
 
 						} else {
 							$this->session->set_userdata('acl', unserialize($row2->acl));
@@ -68,11 +68,11 @@ class Login extends CI_Model {
 						"pID" => $row->id,
 						"name" => $row->name,
 						"username" => $row->username,
-						"message" => $this->message[1],
+						"message" => $this->msg[1],
 					);
 					$this->db->insert('account_record', $data);
 
-					return array(TRUE, $this->message->msg['login'][6], '/w-admin/home');
+					return array(1, $this->message->msg['login'][6], '/w-admin/home');
 				} else {
 					// 密碼錯誤!
 					$data = array(
@@ -80,11 +80,11 @@ class Login extends CI_Model {
 						"pID" => $row->id,
 						"name" => $row->name,
 						"username" => $row->username,
-						"message" => $this->message[2],
+						"message" => $this->msg[2],
 					);
 					$this->db->insert('account_record', $data);
 
-					return array(FALSE, $this->message->msg['login'][4]);
+					return array(0, $this->message->msg['login'][4]);
 				}
 			} else {
 				// 帳號不存在!
@@ -93,11 +93,11 @@ class Login extends CI_Model {
 					"pID" => 0,
 					"name" => '未知',
 					"username" => '未知',
-					"message" => $this->message[3],
+					"message" => $this->msg[3],
 				);
 				$this->db->insert('account_record', $data);
-				
-				return array(FALSE, $this->message->msg['login'][5]);
+
+				return array(0, $this->message->msg['login'][5]);
 			}
 		} catch (PDOException $e) {
 			exit($e->getMessage());
