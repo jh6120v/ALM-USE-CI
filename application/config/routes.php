@@ -58,8 +58,8 @@ $route['captcha'] = 'w-admin/login/captcha';
 
 // 後台登入
 $route['w-admin'] = 'w-admin/login';
-$route['login'] = 'w-admin/login/loginCheck';
-$route['logout'] = 'w-admin/login/logout';
+$route['w-admin/login'] = 'w-admin/login/loginCheck';
+$route['w-admin/logout'] = 'w-admin/login/logout';
 
 $route['w-admin/(:any)'] = 'w-admin/$1';
 $route['w-admin/(:any)/(:any)'] = 'w-admin/$1/$2';

@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-<?php require ('common/meta.tpl.php');?>
+<?php require 'common/meta.tpl.php';?>
 <link rel="stylesheet" href="/css/w-admin/default.css">
 <script src="/js/w-admin/jquery.js"></script>
 <script src="/js/w-admin/jquery.validate.js"></script>
@@ -11,7 +11,7 @@
 <div id="login-box">
 	<H1 class="logo"><img src="/images/w-admin/logo.png"></H1>
     <div class="ajax-response"></div>
-        <?php echo form_open('login','id="login" name="form" autocomplete="off"'); ?>
+        <?php echo form_open('w-admin/login', 'id="login" name="form" autocomplete="off"');?>
     	<p>
             帳號<br>
             <input type="text" name="username" class="column regular-text-1" value="<?php echo $remUser;?>">
@@ -23,7 +23,7 @@
         <p>
         	驗證碼<br>
             <input type="text" name="captcha" class="column regular-text-2" maxlength="4"> <img src="/captcha" id="captcha" title="點擊更換驗證碼!">
-        </p>        
+        </p>
         <p>
         	<label for="rememberme"><input type="checkbox" name="rememberme" id="rememberme" value="true" checked> 記住登入資訊</label>
         </p>
