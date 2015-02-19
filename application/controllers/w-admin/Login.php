@@ -4,16 +4,13 @@ class Login extends CI_Controller {
 		parent::__construct();
 	}
 	public function index() {
-		$this->load->helper(array(
-			'cookie',
-		));
 		// 判斷是否為登入狀態
 		if ($this->common->checkLoginStatus() == TRUE) {
 			redirect('/w-admin/home', 'refresh');
 		}
 		$data = array(
-			"remUser" => get_cookie('remUser', TRUE),
-			"remPass" => get_cookie('remPass', TRUE),
+			"remUser" => $this->input->cookie('remUser', TRUE),
+			"remPass" => $this->input->cookie('remPass', TRUE),
 		);
 		$this->load->view("w-admin/index.tpl.php", $data);
 	}
@@ -44,12 +41,14 @@ class Login extends CI_Controller {
 				$this->load->model('login');
 				$username = $this->input->post('username', TRUE);
 				$password = $this->input->post('password', TRUE);
+				$resutl = $this->login->checkLoginData($username, $password);
 
 				$this->message->getAjaxMsg(array(
-					"success" => 1,
-					"msg" => "success!",
-					"url" => "/w-admin",
+					"success" => $resutl[0],
+					"msg" => $result[1],
+					"url" => $result[2],
 				));
+
 			} else {
 				$this->message->getAjaxMsg(array(
 					"success" => 0,
