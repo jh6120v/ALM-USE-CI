@@ -46,7 +46,7 @@ $(function() {
 					data: formData,
 					timeout:10000,     //ajax请求超时时间10秒     								
 					success: function(json){ 
-						if(json.success==1){
+						if(json.success == true){
 							ajaxMessage(1,json.msg,json.url);
 						}else{
 							ajaxMessage(0,json.msg);

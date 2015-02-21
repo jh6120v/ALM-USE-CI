@@ -51,7 +51,7 @@ class Login extends CI_Controller {
 
 			} else {
 				$this->message->getAjaxMsg(array(
-					"success" => 0,
+					"success" => FALSE,
 					"msg" => validation_errors(),
 				));
 			}

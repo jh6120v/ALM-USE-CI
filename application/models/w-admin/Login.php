@@ -33,7 +33,7 @@ class Login extends CI_Model {
 							);
 							$this->db->insert('account_record', $data);
 
-							return array(0, $this->message->msg['login'][8]);
+							return array(FALSE, $this->message->msg['login'][7]);
 
 						} else {
 							$this->session->set_userdata('acl', unserialize($row2->acl));
@@ -72,7 +72,7 @@ class Login extends CI_Model {
 					);
 					$this->db->insert('account_record', $data);
 
-					return array(1, $this->message->msg['login'][6], '/w-admin/home');
+					return array(TRUE, $this->message->msg['login'][6], '/w-admin/home');
 				} else {
 					// 密碼錯誤!
 					$data = array(
@@ -84,7 +84,7 @@ class Login extends CI_Model {
 					);
 					$this->db->insert('account_record', $data);
 
-					return array(0, $this->message->msg['login'][4]);
+					return array(FALSE, $this->message->msg['login'][4]);
 				}
 			} else {
 				// 帳號不存在!
@@ -97,7 +97,7 @@ class Login extends CI_Model {
 				);
 				$this->db->insert('account_record', $data);
 
-				return array(0, $this->message->msg['login'][5]);
+				return array(FALSE, $this->message->msg['login'][5]);
 			}
 		} catch (PDOException $e) {
 			exit($e->getMessage());
