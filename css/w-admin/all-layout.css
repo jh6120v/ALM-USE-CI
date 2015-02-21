@@ -22,7 +22,7 @@ body {
 	bottom:0;
 	right:0;
 	display:none;
-	background:url(../images/loading-spinning-bubbles.svg) center center no-repeat #000;
+	background:url(/images/w-admin/loading-spinning-bubbles.svg) center center no-repeat #000;
 	z-index:1000000;
 	filter:Alpha(Opacity=20, FinishOpacity=20, Style=2); /* IE */
 	-moz-opacity:0.8; /* Moz + FF */

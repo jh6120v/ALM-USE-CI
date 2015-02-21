@@ -3,7 +3,8 @@
 <head>
 <?php require 'common/meta.tpl.php';?>
 <link rel="stylesheet" href="/css/w-admin/default.css">
-<script src="/js/w-admin/jquery.js"></script>
+<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 <script src="/js/w-admin/jquery.validate.js"></script>
 <script src="/js/w-admin/jquery.login.js"></script>
 </head>

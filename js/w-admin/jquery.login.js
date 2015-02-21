@@ -49,11 +49,11 @@ $(function() {
 						if(json.success == true){
 							ajaxMessage(1,json.msg,json.url);
 						}else{
-							ajaxMessage(0,json.msg);
+							ajaxMessage(2,json.msg);
 						}
 					},
 					error: function(){
-						ajaxMessage(0,"Error!");
+						ajaxMessage(2,"Error!");
 					}						 		
 				}); 
 			}else{
@@ -67,7 +67,7 @@ $(function() {
 			alert(msg);
 			window.location.href=url;
 			return false;
-		}else{
+		}else if(method == 2){
 			$(".ajax-response").fadeIn().html(msg);
 			$('html,body').animate({scrollTop:0}, 300);
 			$("input#goButton").removeProp('disabled');

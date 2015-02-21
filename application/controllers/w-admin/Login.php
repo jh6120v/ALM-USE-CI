@@ -38,13 +38,13 @@ class Login extends CI_Controller {
 
 			if ($this->form_validation->run()) {
 				// model操作
-				$this->load->model('login');
+				$this->load->model('w-admin/login_model');
 				$username = $this->input->post('username', TRUE);
 				$password = $this->input->post('password', TRUE);
-				$resutl = $this->login->checkLoginData($username, $password);
+				$result = $this->login_model->loginData($username, $password);
 
 				$this->message->getAjaxMsg(array(
-					"success" => $resutl[0],
+					"success" => $result[0],
 					"msg" => $result[1],
 					"url" => $result[2],
 				));
