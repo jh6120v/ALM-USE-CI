@@ -1,6 +1,6 @@
 <?php
 define("salt", "cb65b779772a8edb4c62a1b32e2ab673"); //原始CuZ1fho8n7xm
-class Login extends CI_Model {
+class Login_model extends CI_Model {
 	public $msg = array(
 		"帳號停權",
 		"登入成功",
@@ -10,7 +10,7 @@ class Login extends CI_Model {
 	public function __construct() {
 		parent::__construct();
 	}
-	public function checkLoginData($u, $p) {
+	public function loginData($u, $p) {
 		try {
 			$query = $this->db->from('account')->where('username', $u)->limit(1)->get();
 			if ($query->num_rows() > 0) {
@@ -33,7 +33,7 @@ class Login extends CI_Model {
 							);
 							$this->db->insert('account_record', $data);
 
-							return array(FALSE, $this->message->msg['login'][7]);
+							return array(FALSE, $this->message->msg['login'][7], '');
 
 						} else {
 							$this->session->set_userdata('acl', unserialize($row2->acl));
@@ -43,10 +43,11 @@ class Login extends CI_Model {
 					}
 					// 計算登入次數及更新登入時間
 					$data = array(
-						'loginTime' => NOW(), 
-						'ip' => $this->input->ip_address()
+						'loginTime' => now(),
+						'ip' => $this->input->ip_address(),
 					);
-					$this->db->update('account', $data)->where('id', $row->id);
+					$this->db->where('id', $row->id);
+					$this->db->update('account', $data);
 
 					$userdata = array(
 						'pID' => $row->id,
@@ -55,12 +56,13 @@ class Login extends CI_Model {
 					);
 					$this->session->set_userdata($userdata);
 
-					if (isset($this->input->post('rememberme')) && $this->input->post('rememberme') == 'true') {
-						$this->input->set_cookie( 'remUser', $u, time () + 365 * 24 * 60, NULL, NULL, FALSE, TRUE );
-						$this->input->set_cookie( 'remPass', $p, time () + 365 * 24 * 60, NULL, NULL, FALSE, TRUE );
-					} else if (isset($this->input->cookie('remUser', TRUE)) {
-						$this->input->set_cookie ( 'remUser', $u, time () - 100 );
-						$this->input->set_cookie ( 'remPass', $p, time () - 100 );
+					$this->load->helper('cookie');
+					if ($this->input->post('rememberme') && $this->input->post('rememberme') == 'true') {
+						set_cookie('remUser', $u, 86400 * 30);
+						set_cookie('remPass', $p, 86400 * 30);
+					} else if (get_cookie('remUser', TRUE)) {
+						delete_cookie("remUser");
+						delete_cookie("remPass");
 					}
 
 					$data = array(
@@ -84,7 +86,7 @@ class Login extends CI_Model {
 					);
 					$this->db->insert('account_record', $data);
 
-					return array(FALSE, $this->message->msg['login'][4]);
+					return array(FALSE, $this->message->msg['login'][4], '');
 				}
 			} else {
 				// 帳號不存在!
@@ -97,7 +99,7 @@ class Login extends CI_Model {
 				);
 				$this->db->insert('account_record', $data);
 
-				return array(FALSE, $this->message->msg['login'][5]);
+				return array(FALSE, $this->message->msg['login'][5], '');
 			}
 		} catch (PDOException $e) {
 			exit($e->getMessage());
