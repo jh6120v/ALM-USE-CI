@@ -63,14 +63,19 @@ $(window).load(function() {
 
 	$(".actionChange").on("change", function() {
 		var act = $(this).children('option:selected').val();
-		if (act == "") return false;
-		if (confirm('確定執行?')) {
-			$("form.form").append("<input type='hidden' name='act' value='" + act + "'>");
-			$("form.form").prop("action", $("form.form").data("page") + ".php").submit();
-			return true;
-		}
-		$(this).prop('selectedIndex', 0);
-		return false;
+		if (act != "") {
+			if (confirm('確定執行?')) {
+				//$("form.form").append("<input type='hidden' name='act' value='" + act + "'>");
+				$("form.form").prop("action", $("form.form").attr("action") + "/" + act).submit();
+				return true;
+			} else {
+				$(this).prop('selectedIndex', 0);
+				return false;
+			}
+		} else {
+			$(this).prop('selectedIndex', 0);
+			return false;
+		}	
 	});
 
 	$('span.gotop').on("click touchstart", function() {
@@ -113,14 +118,14 @@ function ajaxSubmit(fileUpload, editor) {
 
 			$("form#" + $(this).data("page")).ajaxSubmit({
 				type: "POST",
-				url: $(this).data("page") + ".php",
+				url: $(this).parents("form").attr("action"),
 				dataType: "json",
 				//data: formData,
 				beforeSubmit: function() {
 					//check whether browser fully supports all File API
 					if (fileUpload == true) {
 						if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
-							ajaxMessage(0, "Please upgrade your browser, because your current browser lacks some new features we need!");
+							ajaxMessage(2, "Please upgrade your browser, because your current browser lacks some new features we need!");
 							return false;
 						}
 					}
@@ -138,17 +143,17 @@ function ajaxSubmit(fileUpload, editor) {
 				},
 				timeout: 10000,
 				success: function(json) {
-					if (json.success == 1) {
+					if (json.success == true) {
 						ajaxMessage(1, json.msg, json.url);
 					} else {
-						ajaxMessage(0, json.msg);
+						ajaxMessage(2, json.msg);
 					}
 				},
 				complete: function() {
 					$('#progress-box').fadeOut();
 				},
 				error: function() {
-					ajaxMessage(0, "Error!");
+					ajaxMessage(2, "Error!");
 				},
 			});
 			return false;
@@ -165,7 +170,7 @@ function ajaxMessage(method, msg, url) {
 		alert(msg);
 		window.location.href = url;
 		return false;
-	} else {
+	} else if (method == 2) {
 		$(".ajax-response").fadeIn().html(msg);
 		$('html,body').animate({
 			scrollTop: 0
