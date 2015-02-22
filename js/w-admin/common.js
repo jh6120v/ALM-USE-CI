@@ -20,9 +20,9 @@ $(window).load(function() {
 
 	$(window).on('load resize orientationchange scroll', function() {
 		$win_width = $(window).width(),
-			$this_Top = $(window).scrollTop();
+		$this_Top = $(window).scrollTop();
 
-		if ($win_width < 640) {
+		if ($win_width < 768) {
 			if (!$("#menu-toggle").hasClass("active")) {
 				$("#w-wrap").removeClass("rwd");
 			} else {
