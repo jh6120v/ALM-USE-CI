@@ -2,7 +2,7 @@
 @import url("common.css");
 /* CSS Document */
 body {
-	background:url(../../images/w-admin/default-bg.png) repeat;
+	background:url(/images/w-admin/default-bg.png) repeat;
 }
 #login-box {
 	width:300px;
