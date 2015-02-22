@@ -30,8 +30,7 @@ class Home extends CI_Controller {
 		$this->load->model('w-admin/home_model');
 		$data['result'] = $this->home_model->recordsData();
 
-		$view = $this->load->view('w-admin/home/home-records.tpl.php', $data, TRUE);
-		return $view;
+		return $this->load->view('w-admin/home/home-records.tpl.php', $data, TRUE);
 	}
 	private function getTermsContent() {
 		return $this->load->view('w-admin/home/home-terms.tpl.php', '', TRUE);
