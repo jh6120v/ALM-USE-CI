@@ -12,7 +12,7 @@
             </tr>
         </thead>
         <tbody>
-            <?php if (!empty($result)): ?>
+            <?php if ($result != FALSE): ?>
                 <?php foreach ($result as $k => $v): ?>
 	                <tr>
 	                    <td class="column-no"><?php echo $k + 1;?></td>

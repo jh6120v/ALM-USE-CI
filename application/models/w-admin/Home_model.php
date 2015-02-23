@@ -8,7 +8,7 @@ class Home_model extends CI_Model {
 		if ($query->num_rows() > 0) {
 			return $query->result();
 		} else {
-			return array();
+			return FALSE;
 		}
 	}
 }
