@@ -25,5 +25,12 @@ class Common {
 		);
 		return $this->CI->load->view('w-admin/common/menu.tpl.php', $data, TRUE);
 	}
-
+	// 檢查權限
+	public function checkLimits($a) {
+		if ($this->CI->session->userdata('acl') != 'administration' && !in_array($a, $this->CI->session->userdata('acl'))) {
+			return FALSE;
+		} else {
+			return TRUE;
+		}
+	}
 }

@@ -1,4 +1,4 @@
 RewriteEngine on
 RewriteBase /
-RewriteCond $1 !^(index\.php|fonts|images|js|ico|gif|jpg|png|css|robots\.txt|$)
+RewriteCond $1 !^(index\.php|Upload|ckeditor|ckfinder|fonts|images|js|ico|gif|jpg|png|css|robots\.txt|$)
 RewriteRule ^(.*)$ index.php/$1 [L,QSA]

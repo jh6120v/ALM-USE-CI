@@ -11,7 +11,7 @@ class Menu_model extends CI_Model {
 				),
 				"備註板" => array(
 					"tag" => "remark",
-					"url" => "remark.php",
+					"url" => "/w-admin/remark",
 				),
 			),
 		),
