@@ -28,7 +28,7 @@ class Home extends CI_Controller {
 	}
 	private function getRecordsContent() {
 		$this->load->model('w-admin/home_model');
-		$data['result'] = $this->home_model->recordsData();
+		$data['result'] = $this->home_model->getRecordsData();
 
 		return $this->load->view('w-admin/home/home-records.tpl.php', $data, TRUE);
 	}

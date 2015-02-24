@@ -30,7 +30,7 @@ class Remark extends CI_Controller {
 		$this->load->view('w-admin/page.tpl.php', $data);
 	}
 	private function getEditFormContent() {
-		$result = $this->remark_model->editData();
+		$result = $this->remark_model->getRemarkData();
 		if ($result != FALSE) {
 			$data = array(
 				'title' => '備註版',

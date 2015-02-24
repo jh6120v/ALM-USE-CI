@@ -10,7 +10,7 @@ class Login_model extends CI_Model {
 	public function __construct() {
 		parent::__construct();
 	}
-	public function loginData($u, $p) {
+	public function getLoginData($u, $p) {
 		try {
 			$query = $this->db->from('account')->where('username', $u)->limit(1)->get();
 			if ($query->num_rows() > 0) {

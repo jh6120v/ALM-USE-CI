@@ -25,7 +25,7 @@ class Menu_model extends CI_Model {
 				),
 				"排序設定" => array(
 					"tag" => "sort",
-					"url" => "sort.php",
+					"url" => "/w-admin/sort",
 				),
 			),
 		),

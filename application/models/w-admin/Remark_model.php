@@ -3,7 +3,7 @@ class Remark_model extends CI_Model {
 	public function __construct() {
 		parent::__construct();
 	}
-	public function editData() {
+	public function getRemarkData() {
 		$query = $this->db->select('id, body')->from('remark')->limit(1)->get();
 		if ($query->num_rows() > 0) {
 			return $query->row();

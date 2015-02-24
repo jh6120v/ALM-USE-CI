@@ -41,7 +41,7 @@ class Login extends CI_Controller {
 				$this->load->model('w-admin/login_model');
 				$username = $this->input->post('username', TRUE);
 				$password = $this->input->post('password', TRUE);
-				$result = $this->login_model->loginData($username, $password);
+				$result = $this->login_model->getLoginData($username, $password);
 
 				$this->message->getAjaxMsg(array(
 					"success" => $result[0],

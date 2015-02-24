@@ -30,7 +30,7 @@ class Setting extends CI_Controller {
 		$this->load->view('w-admin/page.tpl.php', $data);
 	}
 	public function getEditFormContent() {
-		$result = $this->setting_model->editData();
+		$result = $this->setting_model->getSettingData();
 		if ($result != FALSE) {
 			$data = array(
 				'title' => '基本設置',
