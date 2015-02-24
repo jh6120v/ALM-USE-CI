@@ -43,7 +43,7 @@ class Login_model extends CI_Model {
 					}
 					// 計算登入次數及更新登入時間
 					$data = array(
-						'loginTime' => now(),
+						'loginTime' => date('Y-m-d H:i:s'),
 						'ip' => $this->input->ip_address(),
 					);
 					$this->db->where('id', $row->id);
