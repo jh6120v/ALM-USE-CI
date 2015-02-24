@@ -21,15 +21,11 @@ class Menu_model extends CI_Model {
 			"subMenu" => array(
 				"基本設置" => array(
 					"tag" => "setting",
-					"url" => "setting.php",
+					"url" => "/w-admin/setting",
 				),
 				"排序設定" => array(
 					"tag" => "sort",
 					"url" => "sort.php",
-				),
-				"清除緩存" => array(
-					"tag" => "clear",
-					"url" => "setting.php?act=clear",
 				),
 			),
 		),

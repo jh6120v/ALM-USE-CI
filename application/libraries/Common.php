@@ -23,6 +23,7 @@ class Common {
 			return TRUE;
 		}
 	}
+	//輸出後台選單
 	public function getMenuContent($open = '', $subOpen = '') {
 		$this->CI->load->model('w-admin/menu_model');
 		$menu = $this->CI->menu_model->menuData();
@@ -32,5 +33,64 @@ class Common {
 			'menu' => $menu,
 		);
 		return $this->CI->load->view('w-admin/common/menu.tpl.php', $data, TRUE);
+	}
+	//尋找地理座標
+	public function location($address = '') {
+		$url = "http://maps.googleapis.com/maps/api/geocode/json?address={$address}&sensor=false";
+		$ch = curl_init();
+		$options = array(
+			CURLOPT_URL => $url,
+			CURLOPT_HEADER => false,
+			CURLOPT_RETURNTRANSFER => true,
+			CURLOPT_USERAGENT => "Google Bot",
+			CURLOPT_FOLLOWLOCATION => true,
+		);
+		curl_setopt_array($ch, $options);
+		$output = curl_exec($ch);
+		curl_close($ch);
+		// 將josn格式進行解析
+		$obj = json_decode($output);
+
+		$data = array(
+			"lat" => $obj->results[0]->geometry->location->lat,
+			"lng" => $obj->results[0]->geometry->location->lng,
+		);
+		return $data;
+	}
+	//去除HTML
+	public function htmlFilter($t) {
+		$search = array(
+			'/ ]*?>.*?/si', // Strip out javascript
+			'/<[\/\!]*?[^<>]*?>/si', // Strip out HTML tags
+			'/([\r\n])[\s]+/', // Strip out white space
+			'/&(quot|#34);/i', // Replace HTML entities
+			'/&(amp|#38);/i',
+			'/&(lt|#60);/i',
+			'/&(gt|#62);/i',
+			'/&(nbsp|#160);/i',
+			'/&(iexcl|#161);/i',
+			'/&(cent|#162);/i',
+			'/&(pound|#163);/i',
+			'/&(copy|#169);/i',
+			'/&#(\d+);/',
+		); // evaluate as php
+
+		$replace = array(
+			'',
+			'',
+			'\1',
+			'"',
+			'&',
+			'<',
+			'>',
+			' ',
+			chr(161),
+			chr(162),
+			chr(163),
+			chr(169),
+			'chr(\1)',
+		);
+		$txt = preg_replace($search, $replace, $t);
+		return $txt;
 	}
 }
