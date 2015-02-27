@@ -424,6 +424,8 @@ $config['csrf_exclude_uris'] = array(
 	'w-admin/account/[0-9]+',
 	'w-admin/account/record',
 	'w-admin/account/record/[0-9]+',
+	'w-admin/account/search',
+	'w-admin/account/search/[0-9]+',
 );
 
 /*

@@ -15,6 +15,10 @@ class Account extends CI_Controller {
 				redirect('/w-admin', 'refresh');
 			}
 		}
+		// 非搜尋頁面註銷keywords
+		if ($this->uri->segment(3) != 'search') {
+			$this->session->unset_userdata('keywords');
+		}
 	}
 	public function index() {
 		// 檢查是否有權限
@@ -23,6 +27,17 @@ class Account extends CI_Controller {
 		}
 		// 取資料
 		$data['content'] = $this->getListContent();
+
+		if (array_key_exists('HTTP_X_PJAX', $_SERVER) && $_SERVER['HTTP_X_PJAX']) {
+			$this->load->view('w-admin/pjax.tpl.php', $data);
+		} else {
+			$data['menu'] = $this->common->getMenuContent('users', 'account');
+			$this->load->view('w-admin/page.tpl.php', $data);
+		}
+	}
+	public function search() {
+		// 取資料
+		$data['content'] = $this->getListContent('search');
 
 		if (array_key_exists('HTTP_X_PJAX', $_SERVER) && $_SERVER['HTTP_X_PJAX']) {
 			$this->load->view('w-admin/pjax.tpl.php', $data);
@@ -114,7 +129,7 @@ class Account extends CI_Controller {
 			}
 			$this->load->library('form_validation');
 			// 檢查必要欄位是否填寫
-			if ($this->input->post('pass4', TRUE) != NULL) {
+			if ($this->input->post('pass4', TRUE) != '') {
 				$this->form_validation->set_rules('pass4', '密碼', 'required|min_length[5]|matches[pass5]');
 				$this->form_validation->set_rules('pass5', '確認密碼', 'required|min_length[5]');
 			}
@@ -161,7 +176,7 @@ class Account extends CI_Controller {
 			$this->load->library('form_validation');
 			// 檢查必要欄位是否填寫
 			$this->form_validation->set_rules('pass3', '舊密碼', 'required|min_length[5]|callback_oldPassCheck');
-			if ($this->input->post('pass4', TRUE) != NULL) {
+			if ($this->input->post('pass4', TRUE) != '') {
 				$this->form_validation->set_rules('pass4', '密碼', 'required|min_length[5]|matches[pass5]');
 				$this->form_validation->set_rules('pass5', '確認密碼', 'required|min_length[5]');
 			}
@@ -244,17 +259,17 @@ class Account extends CI_Controller {
 		if ($this->input->method(TRUE) == 'POST') {
 			// 檢查是否有權限
 			if ($this->common->checkLimits('account-edit') == FALSE) {
-				$this->message->getMsg($this->message->msg['public'][2]);
+				$this->message->getMsg($this->message->msg['public'][2], $this->input->post('backUrl', TRUE));
 			}
 			if ($this->input->post('id[]') != NULL) {
 				$result = $this->account_model->mChangeStatus();
 				if ($result == TRUE) {
-					$this->message->getMsg($this->message->msg['public'][$this->account_model->status[$this->uri->segment(3)][1]]);
+					$this->message->getMsg($this->message->msg['public'][$this->account_model->status[$this->uri->segment(3)][1]], $this->input->post('backUrl', TRUE));
 				} else {
-					$this->message->getMsg($this->message->msg['public'][8]);
+					$this->message->getMsg($this->message->msg['public'][8], $this->input->post('backUrl', TRUE));
 				}
 			} else {
-				$this->message->getMsg($this->message->msg['public'][3]);
+				$this->message->getMsg($this->message->msg['public'][3], $this->input->post('backUrl', TRUE));
 			}
 		}
 	}
@@ -263,17 +278,17 @@ class Account extends CI_Controller {
 		if ($this->input->method(TRUE) == 'POST') {
 			// 檢查是否有權限
 			if ($this->common->checkLimits('account-del') == FALSE) {
-				$this->message->getMsg($this->message->msg['public'][2]);
+				$this->message->getMsg($this->message->msg['public'][2], $this->input->post('backUrl', TRUE));
 			}
 			if ($this->input->post('id[]') != NULL) {
 				$result = $this->account_model->mDelete();
 				if ($result == TRUE) {
-					$this->message->getMsg($this->message->msg['public'][7]);
+					$this->message->getMsg($this->message->msg['public'][7], $this->input->post('backUrl', TRUE));
 				} else {
-					$this->message->getMsg($this->message->msg['public'][8]);
+					$this->message->getMsg($this->message->msg['public'][8], $this->input->post('backUrl', TRUE));
 				}
 			} else {
-				$this->message->getMsg($this->message->msg['public'][3]);
+				$this->message->getMsg($this->message->msg['public'][3], $this->input->post('backUrl', TRUE));
 			}
 		}
 	}
@@ -293,15 +308,26 @@ class Account extends CI_Controller {
 		}
 	}
 	// 取全部資料
-	private function getListContent() {
+	private function getListContent($act = 'list') {
 		// 分頁設定
 		$this->load->library('pagination');
+		$keywords = $this->common->keywordsHandler($this->input->post('keywords', TRUE));
 
-		$config['base_url'] = '/w-admin/account';
-		$config['total_rows'] = $this->account_model->getListTotal();
+		if ($act == 'search') {
+			$config['base_url'] = '/w-admin/account/search';
+			$config['total_rows'] = $this->account_model->getSearchTotal($keywords);
+			$config['uri_segment'] = 4;
+			$page = $this->uri->segment(4, 1);
+			$title = '搜尋帳號';
+		} else {
+			$config['base_url'] = '/w-admin/account';
+			$config['total_rows'] = $this->account_model->getListTotal();
+			$config['uri_segment'] = 3;
+			$page = $this->uri->segment(3, 1);
+			$title = '全部帳號';
+		}
 		$config['per_page'] = $this->pageNum;
 		$config['use_page_numbers'] = TRUE;
-		$config['uri_segment'] = 3;
 		$config['full_tag_open'] = '<div class="pages">';
 		$config['full_tag_close'] = '</div>';
 		$config['cur_tag_open'] = '<a class="page now">';
@@ -315,16 +341,16 @@ class Account extends CI_Controller {
 
 		// 計算總分頁
 		$totalPages = ceil($config['total_rows'] / $this->pageNum);
-		$page = $this->uri->segment(3, 1);
 		if ($page < 1 || $page > $totalPages) {
 			$page = 1;
 		}
 		$offset = $this->pageNum * ($page - 1);
 
 		$data = array(
-			'title' => '全部帳號',
+			'title' => $title,
 			'tag' => 'account',
-			'result' => $this->account_model->getAccountData('list', $this->pageNum, $offset),
+			'keywords' => $keywords,
+			'result' => $this->account_model->getAccountData($act, $this->pageNum, $offset, $keywords),
 		);
 		return $this->load->view('w-admin/account/account-list.tpl.php', $data, TRUE);
 	}

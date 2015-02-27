@@ -57,7 +57,7 @@ class Login_model extends CI_Model {
 					$this->session->set_userdata($userdata);
 
 					$this->load->helper('cookie');
-					if ($this->input->post('rememberme') && $this->input->post('rememberme') == 'true') {
+					if ($this->input->post('rememberme') != NULL && $this->input->post('rememberme') == 'true') {
 						set_cookie('remUser', $u, 86400 * 30);
 						set_cookie('remPass', $p, 86400 * 30);
 					} else if (get_cookie('remUser', TRUE)) {

@@ -13,8 +13,12 @@ $(function(){
 </H1>
 <div class="ajax-response"></div>
 <?php echo form_open('w-admin/account', 'id="account-list" class="form" name="form" data-page="account" autocomplete="off"');?>
-	<div class="list-nav nav-top clearfix">
+    <div class="list-nav nav-top clearfix">
         <?php require VIEWPATH . 'w-admin/common/multiple.tpl.php';?>
+        <div class="other-act">
+            <input type="text" name="keywords" class="column" value="<?php echo $keywords;?>">
+            <input type="button" id="search" class="button" value="搜尋">
+        </div>
         <?php echo $this->pagination->create_links();?>
     </div>
 	<table class="list-table">
@@ -40,11 +44,11 @@ $(function(){
                         </td>
                         <td class="column-title">
                             <H1>
-                                <a <?php if ($this->session->userdata('acl') == 'administration' || in_array($tag . '-edit', $this->session->userdata('acl'))):echo 'href="/w-admin/account/edit/' . $v->id . '/' . $this->uri->segment(3, 1) . '"';endif;?>><?php echo $v->username;?></a>
+                                <a <?php if ($this->session->userdata('acl') == 'administration' || in_array($tag . '-edit', $this->session->userdata('acl'))): ?>href="/w-admin/account/edit/<?php echo $v->id;?><?php echo ($this->uri->segment(3) != 'search') ? '/' . $this->uri->segment(3, 1) : '';?>"<?php endif;?>><?php echo $v->username;?></a>
                             </H1>
                             <div class="action">
                                 <?php if ($this->session->userdata('acl') == 'administration' || in_array($tag . '-edit', $this->session->userdata('acl'))): ?>
-                                    <a class="green" href="/w-admin/account/edit/<?php echo $v->id;?>/<?php echo $this->uri->segment(3, 1);?>">編輯</a>
+                                    <a class="green" href="/w-admin/account/edit/<?php echo $v->id;?><?php echo ($this->uri->segment(3) != 'search') ? '/' . $this->uri->segment(3, 1) : '';?>">編輯</a>
                                     <?php if ($v->status == 0): ?>
                                         | <span id="status-<?php echo $v->id;?>" class="green"><a onClick='changeStatus(<?php echo $v->id;?>,"close")'>已開啟</a></span>
                                     <?php else: ?>
@@ -82,10 +86,9 @@ $(function(){
                 <th scope="col" class="column-date">時間</th>
             </tr>
         </tfoot>
-
     </table>
-	<div class="list-nav nav-bottom clearfix">
+    <div class="list-nav nav-bottom clearfix">
         <?php echo $this->pagination->create_links();?>
-    	<?php require VIEWPATH . 'w-admin/common/multiple.tpl.php';?>
+        <?php require VIEWPATH . 'w-admin/common/multiple.tpl.php';?>
     </div>
 </form>

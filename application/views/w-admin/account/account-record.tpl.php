@@ -6,10 +6,10 @@ $(function() {
 } );
 </script>
 <H1><?php echo $title;?></H1>
+<div class="list-nav nav-top clearfix">
+    <?php echo $this->pagination->create_links();?>
+</div>
 <?php echo form_open('', 'id="account-record" class="form" name="form" autocomplete="off"');?>
-	<div class="list-nav nav-top clearfix">
-        <?php echo $this->pagination->create_links();?>
-    </div>
 	<table class="list-table">
     	<thead>
         	<tr>
@@ -51,7 +51,7 @@ $(function() {
         </tfoot>
 
     </table>
-	<div class="list-nav nav-bottom clearfix">
-    	<?php echo $this->pagination->create_links();?>
-    </div>
 </form>
+<div class="list-nav nav-bottom clearfix">
+    <?php echo $this->pagination->create_links();?>
+</div>

@@ -9,7 +9,7 @@ class Common {
 	}
 	// 檢查登入狀態
 	public function checkLoginStatus() {
-		if ($this->CI->session->userdata('status') && $this->CI->session->userdata('status') == "success") {
+		if ($this->CI->session->userdata('status') != NULL && $this->CI->session->userdata('status') == "success") {
 			return TRUE;
 		} else {
 			return FALSE;
@@ -92,5 +92,22 @@ class Common {
 		);
 		$txt = preg_replace($search, $replace, $t);
 		return $txt;
+	}
+	// 處理搜尋字串
+	public function keywordsHandler($keywords) {
+		if (isset($keywords)) {
+			$this->CI->session->set_userdata('keywords', $keywords);
+			return $keywords;
+		} else if ($this->CI->session->userdata('keywords') != NULL) {
+			if ($this->CI->uri->segment(3) == 'search') {
+				$keywords = $this->CI->session->userdata('keywords');
+			} else {
+				$keywords = '';
+			}
+			return $keywords;
+		} else {
+			$keywords = "";
+			return $keywords;
+		}
 	}
 }

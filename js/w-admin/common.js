@@ -61,7 +61,7 @@ $(window).load(function() {
 		$('.selectAll').attr('checked', $isSelAll);
 	});
 
-	$(".actionChange").on("change", function() {
+	$(document).on("change", ".actionChange", function() {
 		var act = $(this).children('option:selected').val();
 		if (act != "") {
 			if ($("input[name='id[]']:checked").toArray() == '') {
@@ -70,7 +70,7 @@ $(window).load(function() {
 				return false;
 			}
 			if (confirm('確定執行?')) {
-				//$("form.form").append("<input type='hidden' name='act' value='" + act + "'>");
+				$("form.form").append("<input type='hidden' name='backUrl' value='" + window.location.href + "'>");
 				$("form.form").prop("action", $("form.form").attr("action") + "/" + act).submit();
 				return true;
 			} else {
@@ -81,6 +81,9 @@ $(window).load(function() {
 			$(this).prop('selectedIndex', 0);
 			return false;
 		}	
+	});
+	$(document).on("click", "input#search", function(){
+		$("form.form").prop("action", $("form.form").attr("action") + "/search").submit();
 	});
 
 	$('span.gotop').on("click touchstart", function() {

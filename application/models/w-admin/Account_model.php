@@ -10,11 +10,15 @@ class Account_model extends CI_Model {
 	public function __construct() {
 		parent::__construct();
 	}
-	public function getAccountData($act, $pageNum = '', $offset = '') {
-		if ($act == 'list') {
+	public function getAccountData($act, $pageNum = '', $offset = '', $keywords = '') {
+		if ($act == 'list' || $act == 'search') {
 			$this->db->select('a.*, b.title');
 			$this->db->from('account AS a');
 			$this->db->join('account_group AS b', 'a.groups = b.id');
+			if ($act == 'search') {
+				$where = "(`a`.`username` LIKE '%" . $keywords . "%' OR `a`.`name` LIKE '%" . $keywords . "%')";
+				$this->db->where($where);
+			}
 			$this->db->where_not_in('a.id', $this->session->userdata('pID'));
 			$this->db->where('a.groups!=', 'administration');
 			$this->db->order_by('a.id', 'ASC');
@@ -76,7 +80,7 @@ class Account_model extends CI_Model {
 				return FALSE;
 			}
 			// 欄位處理
-			$password = ($this->input->post('pass4') != NULL) ? hash_hmac('md5', $this->input->post('pass4', TRUE), salt) : $result->password;
+			$password = ($this->input->post('pass4', TRUE) != '') ? hash_hmac('md5', $this->input->post('pass4', TRUE), salt) : $result->password;
 			$locked = ($this->input->post('locked', TRUE) == NULL || $this->session->userdata('acl') != "administration") ? $result->locked : $this->input->post('locked', TRUE);
 			$data = array(
 				'password' => $password,
@@ -105,7 +109,7 @@ class Account_model extends CI_Model {
 				return FALSE;
 			}
 			// 欄位處理
-			$password = ($this->input->post('pass4') != NULL) ? hash_hmac('md5', $this->input->post('pass4', TRUE), salt) : $result->password;
+			$password = ($this->input->post('pass4', TRUE) != '') ? hash_hmac('md5', $this->input->post('pass4', TRUE), salt) : $result->password;
 			$data = array(
 				'password' => $password,
 				'name' => $this->common->htmlFilter($this->input->post('name')),
@@ -205,10 +209,20 @@ class Account_model extends CI_Model {
 	}
 	public function getOldPassCheckData() {
 		// 密碼轉換
-		$password = hash_hmac('md5', $this->input->post('pass3'), salt);
+		$password = hash_hmac('md5', $this->input->post('pass3', TRUE), salt);
 		return $this->db->from('account')->where(array('password' => $password, 'id' => $this->session->userdata('pID')))->limit(1)->count_all_results();
 	}
 	public function getRecordTotal() {
 		return $this->db->count_all('account_record');
+	}
+	public function getSearchTotal($keywords) {
+		$this->db->from('account');
+		$where = "(`username` LIKE '%" . $keywords . "%' OR `name` LIKE '%" . $keywords . "%')";
+		$this->db->where($where);
+		$this->db->where_not_in('id', $this->session->userdata('pID'));
+		$this->db->where('groups!=', 'administration');
+		$num = $this->db->count_all_results();
+
+		return $num;
 	}
 }

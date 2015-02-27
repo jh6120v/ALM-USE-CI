@@ -22,7 +22,6 @@ $(function(){
                             <?php endif;?>
                         <?php endforeach;?>
                     </ul>
-
                 </li>
             <?php endif;?>
         <?php endforeach;?>
