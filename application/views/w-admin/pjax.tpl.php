@@ -1,1 +1,1 @@
-<div class="wrap">{$content}</div>
+<div class="wrap"><?php echo $content;?></div>

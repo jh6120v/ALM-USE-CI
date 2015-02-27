@@ -35,15 +35,15 @@ class Menu_model extends CI_Model {
 			"subMenu" => array(
 				"全部帳號" => array(
 					"tag" => "account",
-					"url" => "account.php",
+					"url" => "/w-admin/account",
 				),
 				"新增帳號" => array(
 					"tag" => "account-add",
-					"url" => "account.php?act=add",
+					"url" => "/w-admin/account/add",
 				),
 				"登入紀錄" => array(
 					"tag" => "account-record",
-					"url" => "account.php?act=record",
+					"url" => "/w-admin/account/record",
 				),
 				"群組管理" => array(
 					"tag" => "group",

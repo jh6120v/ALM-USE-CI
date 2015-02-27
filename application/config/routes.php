@@ -64,11 +64,17 @@ $route['w-admin/logout'] = 'w-admin/login/logout';
 // 排序設定
 //$route['w-admin/sort/(:num)'] = 'w-admin/sort/edit/$1';
 
-//各類別的預設首頁
+// 各類別的預設首頁
 $route['w-admin/(:any)'] = 'w-admin/$1/index';
-//有分頁時使用
+// 各類別首頁有分頁時使用
 $route['w-admin/(:any)/(:num)'] = 'w-admin/$1/index/$2';
-//各類別的不同方法
+// 單選切換狀態
+$route['w-admin/(:any)/open'] = 'w-admin/$1/changeStatus';
+$route['w-admin/(:any)/close'] = 'w-admin/$1/changeStatus';
+// 多選切換狀態
+$route['w-admin/(:any)/mOpen'] = 'w-admin/$1/mChangeStatus';
+$route['w-admin/(:any)/mClose'] = 'w-admin/$1/mChangeStatus';
+// 各類別的不同方法
 $route['w-admin/(:any)/(:any)'] = 'w-admin/$1/$2';
-//各類別的不同方法並帶參數
+// 各類別的不同方法並帶參數
 $route['w-admin/(:any)/(:any)/(:num)'] = 'w-admin/$1/$2/$3';

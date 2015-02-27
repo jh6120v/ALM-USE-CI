@@ -111,7 +111,7 @@ input[type="radio"].group + label, input[type="checkbox"].group + label {
 }
 input[type="radio"].group:checked + label, input[type="checkbox"].group:checked + label {
 	padding-left: 22px;
-	background: url(../images/yes.png) 5px center no-repeat #09c;
+	background: url(/images/w-admin/yes.png) 5px center no-repeat #09c;
 	color: #fff;
 }
 

@@ -56,7 +56,7 @@ class Setting extends CI_Controller {
 			$this->form_validation->set_rules('email', '聯絡Email', 'required|valid_email');
 
 			if ($this->form_validation->run()) {
-				$result = $this->setting_model->eSave($this->input->post(NULL, TRUE));
+				$result = $this->setting_model->eSave();
 				if ($result == TRUE) {
 					$this->message->getAjaxMsg(array(
 						"success" => TRUE,

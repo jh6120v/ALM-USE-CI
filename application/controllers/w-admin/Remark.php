@@ -50,7 +50,7 @@ class Remark extends CI_Controller {
 					'msg' => $this->message->msg['public'][2],
 				));
 			}
-			$result = $this->remark_model->eSave($this->input->post());
+			$result = $this->remark_model->eSave();
 			if ($result == TRUE) {
 				$this->message->getAjaxMsg(array(
 					"success" => TRUE,

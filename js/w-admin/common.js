@@ -64,6 +64,11 @@ $(window).load(function() {
 	$(".actionChange").on("change", function() {
 		var act = $(this).children('option:selected').val();
 		if (act != "") {
+			if ($("input[name='id[]']:checked").toArray() == '') {
+				alert('沒有選擇!');
+				$(this).prop('selectedIndex', 0);
+				return false;
+			}
 			if (confirm('確定執行?')) {
 				//$("form.form").append("<input type='hidden' name='act' value='" + act + "'>");
 				$("form.form").prop("action", $("form.form").attr("action") + "/" + act).submit();
@@ -198,58 +203,64 @@ function leave() {
 }
 
 function changeStatus(id, act) {
-	if (id == "" || act == "") alert("Error!");
+	if (id == "" || act == "") {
+		alert("Error!");
+		return false;
+	}
 	$.ajax({
 		type: "POST",
-		url: $("form").data("page") + ".php",
+		url: $("form.form").attr("action") + "/" + act,
 		dataType: "json",
 		data: {
-			"act": act,
-			"id": id
+			"id": id,
+			"csrf_token":$("input[name=csrf_token]").val()
 		},
 		timeout: 10000, //ajax请求超时时间10秒     								
 		success: function(json) {
-			if (json.success == 1) {
-				ajaxMessage(0, json.msg);
+			if (json.success == true) {
+				ajaxMessage(2, json.msg);
 				$("span#status-" + id).toggleClass("red green").children("a").attr("onClick", "changeStatus(" + id + ",'" + json.act + "')").text(json.name);
 			} else {
-				ajaxMessage(0, json.msg);
+				ajaxMessage(2, json.msg);
 			}
 		},
 		error: function() {
-			ajaxMessage(0, "Error!");
+			ajaxMessage(2, "Error!");
 		}
 	});
 }
 
 function del(id) {
-	if (id == "") alert("Error!");
+	if (id == "") {
+		alert("Error!");
+		return false;
+	}
 	if (confirm("您真的確定要刪除嗎？\n\n請確認！") == true) {
 		$.ajax({
 			type: "POST",
-			url: $("form").data("page") + ".php",
+			url: $("form.form").attr("action") + "/delete",
 			dataType: "json",
 			data: {
-				"act": "delete",
-				"id": id
+				"id": id,
+				"csrf_token":$("input[name=csrf_token]").val()
 			},
 			timeout: 10000, //ajax请求超时时间10秒     								
 			success: function(json) {
-				if (json.success == 1) {
-					ajaxMessage(0, json.msg);
+				if (json.success == true) {
+					ajaxMessage(2, json.msg);
 					$("tr#" + $("form").data("page") + "-" + id).fadeOut("slow", function() {
 						$(this).remove();
 						if ($("tbody#list > tr").length <= 0) {
-							$("tbody#list").html("<tr><td colspan='4' class='column-nodata'>目前沒有資料</td></tr>");
+							$("tbody#list").html("<tr><td colspan='10' class='column-nodata'>目前沒有資料</td></tr>");
 						}
 					});
 
 				} else {
-					ajaxMessage(0, json.msg);
+					ajaxMessage(2, json.msg);
 				}
 			},
 			error: function() {
-				ajaxMessage(0, "Error!");
+				ajaxMessage(2, "Error!");
 			}
 		});
 	} else {

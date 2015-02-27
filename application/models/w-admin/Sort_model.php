@@ -20,33 +20,35 @@ class Sort_model extends CI_Model {
 	public function __construct() {
 		parent::__construct();
 	}
-	public function getSortData($id = FALSE) {
-		if ($id == FALSE) {
+	public function getSortData($act) {
+		if ($act == 'list') {
 			$query = $this->db->from('sort')->order_by('id', 'ASC')->get();
 			if ($query->num_rows() > 0) {
 				return $query->result();
 			} else {
 				return FALSE;
 			}
-		} else {
-			$query = $this->db->from('sort')->where('id', $id)->limit(1)->get();
+		} else if ($act == 'edit') {
+			$query = $this->db->from('sort')->where('id', $this->uri->segment(4))->limit(1)->get();
 			if ($query->num_rows() > 0) {
 				return $query->row();
 			} else {
 				return FALSE;
 			}
+		} else {
+			return FALSE;
 		}
 	}
-	public function eSave($d) {
+	public function eSave() {
 		try {
 			$data = array(
-				'sort' => $d['sort'],
-				'orderBy' => $d['orderBy'],
-				'sort2' => $d['sort2'],
-				'orderBy2' => $d['orderBy2'],
+				'sort' => $this->input->post('sort', TRUE),
+				'orderBy' => $this->input->post('orderBy', TRUE),
+				'sort2' => $this->input->post('sort2', TRUE),
+				'orderBy2' => $this->input->post('orderBy2', TRUE),
 				'updateTime' => date('Y-m-d H:i:s'),
 			);
-			$this->db->where('id', $d['id']);
+			$this->db->where('id', $this->input->post('id', TRUE));
 			$this->db->update('sort', $data);
 
 			return ($this->db->affected_rows() > 0) ? TRUE : FALSE;

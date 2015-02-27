@@ -29,14 +29,14 @@ class Sort extends CI_Controller {
 		);
 		$this->load->view('w-admin/page.tpl.php', $data);
 	}
-	public function edit($id) {
+	public function edit() {
 		//檢查是否有權限
 		if ($this->common->checkLimits('sort-edit') == FALSE) {
 			$this->message->getMsg($this->message->msg['public'][2]);
 		}
 		//取資料
 		$menu = $this->common->getMenuContent('system', 'sort');
-		$content = $this->getEditFormContent($id);
+		$content = $this->getEditFormContent();
 		$data = array(
 			'menu' => $menu,
 			'content' => $content,
@@ -60,7 +60,7 @@ class Sort extends CI_Controller {
 			$this->form_validation->set_rules('orderBy2', '次要方式', 'required');
 
 			if ($this->form_validation->run()) {
-				$result = $this->sort_model->eSave($this->input->post(NULL, TRUE));
+				$result = $this->sort_model->eSave();
 				if ($result == TRUE) {
 					$this->message->getAjaxMsg(array(
 						"success" => TRUE,
@@ -85,13 +85,13 @@ class Sort extends CI_Controller {
 		$data = array(
 			'title' => '排序設定',
 			'tag' => 'sort',
-			'result' => $this->sort_model->getSortData(),
+			'result' => $this->sort_model->getSortData('list'),
 			'sort' => $this->sort_model->getListSortName(),
 		);
 		return $this->load->view('w-admin/sort/sort-list.tpl.php', $data, TRUE);
 	}
-	public function getEditFormContent($id) {
-		$result = $this->sort_model->getSortData($id);
+	public function getEditFormContent() {
+		$result = $this->sort_model->getSortData('edit');
 		if ($result != FALSE) {
 			$data = array(
 				'title' => '編輯排序',
