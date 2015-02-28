@@ -2,6 +2,12 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Message {
+	public $status = array(
+		"open" => array(0, "close", "已開啟", 11),
+		"close" => array(1, "open", "已關閉", 10),
+		"mOpen" => array(0, 11),
+		"mClose" => array(1, 10),
+	);
 	public $msg = array(
 		"public" => array(
 			0 => "系統嚴銃錯誤!",

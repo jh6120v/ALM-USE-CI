@@ -15,10 +15,6 @@ class Account extends CI_Controller {
 				redirect('/w-admin', 'refresh');
 			}
 		}
-		// 非搜尋頁面註銷keywords
-		if ($this->uri->segment(3) != 'search') {
-			$this->session->unset_userdata('keywords');
-		}
 	}
 	public function index() {
 		// 檢查是否有權限
@@ -218,10 +214,10 @@ class Account extends CI_Controller {
 			if ($result == TRUE) {
 				$this->message->getAjaxMsg(array(
 					"success" => TRUE,
-					'act' => $this->account_model->status[$this->uri->segment(3)][1],
-					'name' => $this->account_model->status[$this->uri->segment(3)][2],
+					'act' => $this->message->status[$this->uri->segment(3)][1],
+					'name' => $this->message->status[$this->uri->segment(3)][2],
 					'updateTime' => date('Y-m-d H:i:s'),
-					"msg" => $this->message->msg['public'][$this->account_model->status[$this->uri->segment(3)][3]],
+					"msg" => $this->message->msg['public'][$this->message->status[$this->uri->segment(3)][3]],
 				));
 			} else {
 				$this->message->getAjaxMsg(array(
@@ -265,7 +261,7 @@ class Account extends CI_Controller {
 			if ($this->input->post('id[]') != NULL) {
 				$result = $this->account_model->mChangeStatus();
 				if ($result == TRUE) {
-					$this->message->getMsg($this->message->msg['public'][$this->account_model->status[$this->uri->segment(3)][1]]);
+					$this->message->getMsg($this->message->msg['public'][$this->message->status[$this->uri->segment(3)][1]]);
 				} else {
 					$this->message->getMsg($this->message->msg['public'][8]);
 				}

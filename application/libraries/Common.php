@@ -97,4 +97,97 @@ class Common {
 	public function searchQueryHandler($q) {
 		return (isset($q)) ? $q : "";
 	}
+	// 單選切換狀態
+	public function changeStatus($method) {
+		if ($this->CI->input->is_ajax_request()) {
+			// 檢查是否有權限
+			if ($this->checkLimits($method . '-edit') == FALSE) {
+				$this->CI->message->getAjaxMsg(array(
+					'success' => FALSE,
+					'msg' => $this->CI->message->msg['public'][2],
+				));
+			}
+			$model = $method . '_model';
+			$result = $this->CI->$model->changeStatus();
+			if ($result == TRUE) {
+				$this->CI->message->getAjaxMsg(array(
+					"success" => TRUE,
+					'act' => $this->CI->message->status[$this->CI->uri->segment(3)][1],
+					'name' => $this->CI->message->status[$this->CI->uri->segment(3)][2],
+					'updateTime' => date('Y-m-d H:i:s'),
+					"msg" => $this->CI->message->msg['public'][$this->CI->message->status[$this->CI->uri->segment(3)][3]],
+				));
+			} else {
+				$this->CI->message->getAjaxMsg(array(
+					"success" => FALSE,
+					"msg" => $this->CI->message->msg['public'][8],
+				));
+			}
+		}
+	}
+	// 單選刪除
+	public function delete($method) {
+		if ($this->CI->input->is_ajax_request()) {
+			// 檢查是否有權限
+			if ($this->checkLimits($method . '-del') == FALSE) {
+				$this->CI->message->getAjaxMsg(array(
+					'success' => FALSE,
+					'msg' => $this->CI->message->msg['public'][2],
+				));
+			}
+			$model = $method . '_model';
+			$result = $this->CI->$model->delete();
+			if ($result == TRUE) {
+				$this->CI->message->getAjaxMsg(array(
+					"success" => TRUE,
+					"msg" => $this->CI->message->msg['public'][7],
+				));
+			} else {
+				$this->CI->message->getAjaxMsg(array(
+					"success" => FALSE,
+					"msg" => $this->CI->message->msg['public'][8],
+				));
+			}
+		}
+	}
+	// 多選切換狀態
+	public function mChangeStatus($method) {
+		if ($this->CI->input->method(TRUE) == 'POST') {
+			// 檢查是否有權限
+			if ($this->checkLimits($method . '-edit') == FALSE) {
+				$this->CI->message->getMsg($this->CI->message->msg['public'][2]);
+			}
+			if ($this->CI->input->post('id[]') != NULL) {
+				$model = $method . '_model';
+				$result = $this->CI->$model->mChangeStatus();
+				if ($result == TRUE) {
+					$this->CI->message->getMsg($this->CI->message->msg['public'][$this->CI->message->status[$this->CI->uri->segment(3)][1]]);
+				} else {
+					$this->CI->message->getMsg($this->CI->message->msg['public'][8]);
+				}
+			} else {
+				$this->CI->message->getMsg($this->CI->message->msg['public'][3]);
+			}
+		}
+	}
+	// 多選刪除
+	public function mDelete($method) {
+		if ($this->CI->input->method(TRUE) == 'POST') {
+			// 檢查是否有權限
+			if ($this->checkLimits($method . '-del') == FALSE) {
+				$this->CI->message->getMsg($this->CI->message->msg['public'][2]);
+			}
+			if ($this->CI->input->post('id[]') != NULL) {
+				$model = $method . '_model';
+				$result = $this->CI->$model->mDelete();
+				if ($result == TRUE) {
+					$this->CI->message->getMsg($this->CI->message->msg['public'][7]);
+				} else {
+					$this->CI->message->getMsg($this->CI->message->msg['public'][8]);
+				}
+			} else {
+				$this->CI->message->getMsg($this->CI->message->msg['public'][3]);
+			}
+		}
+	}
 }

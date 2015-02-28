@@ -251,7 +251,7 @@ function del(id) {
 			success: function(json) {
 				if (json.success == true) {
 					ajaxMessage(2, json.msg);
-					$("tr#" + $("form").data("page") + "-" + id).fadeOut("slow", function() {
+					$("tr#" + $("form.form").data("page") + "-" + id).fadeOut("slow", function() {
 						$(this).remove();
 						if ($("tbody#list > tr").length <= 0) {
 							$("tbody#list").html("<tr><td colspan='10' class='column-nodata'>目前沒有資料</td></tr>");

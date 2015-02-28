@@ -1,12 +1,6 @@
 <?php
 define("salt", "cb65b779772a8edb4c62a1b32e2ab673"); //原始CuZ1fho8n7xm
 class Account_model extends CI_Model {
-	public $status = array(
-		"open" => array(0, "close", "已開啟", 11),
-		"close" => array(1, "open", "已關閉", 10),
-		"mOpen" => array(0, 11),
-		"mClose" => array(1, 10),
-	);
 	public function __construct() {
 		parent::__construct();
 	}
@@ -127,7 +121,7 @@ class Account_model extends CI_Model {
 	public function changeStatus() {
 		try {
 			$data = array(
-				'status' => $this->status[$this->uri->segment(3)][0],
+				'status' => $this->message->status[$this->uri->segment(3)][0],
 				'updateTime' => date('Y-m-d H:i:s'),
 			);
 			$this->db->where('id', $this->input->post('id', TRUE));
@@ -156,7 +150,7 @@ class Account_model extends CI_Model {
 				return FALSE;
 			}
 			$data = array(
-				'status' => $this->status[$this->uri->segment(3)][0],
+				'status' => $this->message->status[$this->uri->segment(3)][0],
 				'updateTime' => date('Y-m-d H:i:s'),
 			);
 			$this->db->where_in('id', $this->input->post('id', TRUE));

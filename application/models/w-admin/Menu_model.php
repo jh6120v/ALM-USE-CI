@@ -47,7 +47,7 @@ class Menu_model extends CI_Model {
 				),
 				"群組管理" => array(
 					"tag" => "group",
-					"url" => "group.php",
+					"url" => "/w-admin/group",
 				),
 			),
 		),
