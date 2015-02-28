@@ -12,15 +12,17 @@ $(function(){
     <?php endif;?>
 </H1>
 <div class="ajax-response"></div>
-<?php echo form_open('w-admin/account', 'id="account-list" class="form" name="form" data-page="account" autocomplete="off"');?>
-    <div class="list-nav nav-top clearfix">
-        <?php require VIEWPATH . 'w-admin/common/multiple.tpl.php';?>
-        <div class="other-act">
-            <input type="text" name="keywords" class="column" value="<?php echo $keywords;?>">
+<div class="list-nav nav-top clearfix">
+    <?php require VIEWPATH . 'w-admin/common/multiple.tpl.php';?>
+    <div class="other-act">
+        <form method="GET" id="search-form">
+            <input type="text" name="q" class="column" value="<?php echo $q;?>">
             <input type="button" id="search" class="button" value="搜尋">
-        </div>
-        <?php echo $this->pagination->create_links();?>
+        </form>
     </div>
+    <?php echo $this->pagination->create_links();?>
+</div>
+<?php echo form_open('w-admin/account', 'id="account-list" class="form" name="form" data-page="account" autocomplete="off"');?>
 	<table class="list-table">
     	<thead>
         	<tr>
@@ -87,8 +89,8 @@ $(function(){
             </tr>
         </tfoot>
     </table>
-    <div class="list-nav nav-bottom clearfix">
-        <?php echo $this->pagination->create_links();?>
-        <?php require VIEWPATH . 'w-admin/common/multiple.tpl.php';?>
-    </div>
 </form>
+<div class="list-nav nav-bottom clearfix">
+    <?php echo $this->pagination->create_links();?>
+    <?php require VIEWPATH . 'w-admin/common/multiple.tpl.php';?>
+</div>

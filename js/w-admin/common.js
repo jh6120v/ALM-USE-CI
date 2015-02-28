@@ -70,8 +70,7 @@ $(window).load(function() {
 				return false;
 			}
 			if (confirm('確定執行?')) {
-				$("form.form").append("<input type='hidden' name='backUrl' value='" + window.location.href + "'>");
-				$("form.form").prop("action", $("form.form").attr("action") + "/" + act).submit();
+				$("form.form").attr("action", $("form.form").attr("action") + "/" + act).submit();
 				return true;
 			} else {
 				$(this).prop('selectedIndex', 0);
@@ -83,7 +82,7 @@ $(window).load(function() {
 		}	
 	});
 	$(document).on("click", "input#search", function(){
-		$("form.form").prop("action", $("form.form").attr("action") + "/search").submit();
+		$("form#search-form").attr("action",$("form.form").attr("action") + "/search").submit();
 	});
 
 	$('span.gotop').on("click touchstart", function() {

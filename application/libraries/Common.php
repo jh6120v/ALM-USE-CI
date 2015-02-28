@@ -94,20 +94,7 @@ class Common {
 		return $txt;
 	}
 	// 處理搜尋字串
-	public function keywordsHandler($keywords) {
-		if (isset($keywords)) {
-			$this->CI->session->set_userdata('keywords', $keywords);
-			return $keywords;
-		} else if ($this->CI->session->userdata('keywords') != NULL) {
-			if ($this->CI->uri->segment(3) == 'search') {
-				$keywords = $this->CI->session->userdata('keywords');
-			} else {
-				$keywords = '';
-			}
-			return $keywords;
-		} else {
-			$keywords = "";
-			return $keywords;
-		}
+	public function searchQueryHandler($q) {
+		return (isset($q)) ? $q : "";
 	}
 }

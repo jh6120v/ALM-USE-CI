@@ -259,17 +259,17 @@ class Account extends CI_Controller {
 		if ($this->input->method(TRUE) == 'POST') {
 			// 檢查是否有權限
 			if ($this->common->checkLimits('account-edit') == FALSE) {
-				$this->message->getMsg($this->message->msg['public'][2], $this->input->post('backUrl', TRUE));
+				$this->message->getMsg($this->message->msg['public'][2]);
 			}
 			if ($this->input->post('id[]') != NULL) {
 				$result = $this->account_model->mChangeStatus();
 				if ($result == TRUE) {
-					$this->message->getMsg($this->message->msg['public'][$this->account_model->status[$this->uri->segment(3)][1]], $this->input->post('backUrl', TRUE));
+					$this->message->getMsg($this->message->msg['public'][$this->account_model->status[$this->uri->segment(3)][1]]);
 				} else {
-					$this->message->getMsg($this->message->msg['public'][8], $this->input->post('backUrl', TRUE));
+					$this->message->getMsg($this->message->msg['public'][8]);
 				}
 			} else {
-				$this->message->getMsg($this->message->msg['public'][3], $this->input->post('backUrl', TRUE));
+				$this->message->getMsg($this->message->msg['public'][3]);
 			}
 		}
 	}
@@ -278,17 +278,17 @@ class Account extends CI_Controller {
 		if ($this->input->method(TRUE) == 'POST') {
 			// 檢查是否有權限
 			if ($this->common->checkLimits('account-del') == FALSE) {
-				$this->message->getMsg($this->message->msg['public'][2], $this->input->post('backUrl', TRUE));
+				$this->message->getMsg($this->message->msg['public'][2]);
 			}
 			if ($this->input->post('id[]') != NULL) {
 				$result = $this->account_model->mDelete();
 				if ($result == TRUE) {
-					$this->message->getMsg($this->message->msg['public'][7], $this->input->post('backUrl', TRUE));
+					$this->message->getMsg($this->message->msg['public'][7]);
 				} else {
-					$this->message->getMsg($this->message->msg['public'][8], $this->input->post('backUrl', TRUE));
+					$this->message->getMsg($this->message->msg['public'][8]);
 				}
 			} else {
-				$this->message->getMsg($this->message->msg['public'][3], $this->input->post('backUrl', TRUE));
+				$this->message->getMsg($this->message->msg['public'][3]);
 			}
 		}
 	}
@@ -311,13 +311,14 @@ class Account extends CI_Controller {
 	private function getListContent($act = 'list') {
 		// 分頁設定
 		$this->load->library('pagination');
-		$keywords = $this->common->keywordsHandler($this->input->post('keywords', TRUE));
+		$q = $this->common->searchQueryHandler($this->input->get('q', TRUE));
 
 		if ($act == 'search') {
-			$config['base_url'] = '/w-admin/account/search';
-			$config['total_rows'] = $this->account_model->getSearchTotal($keywords);
-			$config['uri_segment'] = 4;
-			$page = $this->uri->segment(4, 1);
+			$config['base_url'] = '/w-admin/account/search?q=' . $q;
+			$config['total_rows'] = $this->account_model->getSearchTotal($q);
+			$config['page_query_string'] = TRUE;
+			$config['query_string_segment'] = 'page';
+			$page = $this->input->get('page', TRUE);
 			$title = '搜尋帳號';
 		} else {
 			$config['base_url'] = '/w-admin/account';
@@ -349,8 +350,8 @@ class Account extends CI_Controller {
 		$data = array(
 			'title' => $title,
 			'tag' => 'account',
-			'keywords' => $keywords,
-			'result' => $this->account_model->getAccountData($act, $this->pageNum, $offset, $keywords),
+			'q' => $q,
+			'result' => $this->account_model->getAccountData($act, $this->pageNum, $offset, $q),
 		);
 		return $this->load->view('w-admin/account/account-list.tpl.php', $data, TRUE);
 	}

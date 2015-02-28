@@ -10,13 +10,13 @@ class Account_model extends CI_Model {
 	public function __construct() {
 		parent::__construct();
 	}
-	public function getAccountData($act, $pageNum = '', $offset = '', $keywords = '') {
+	public function getAccountData($act, $pageNum = '', $offset = '', $q = '') {
 		if ($act == 'list' || $act == 'search') {
 			$this->db->select('a.*, b.title');
 			$this->db->from('account AS a');
 			$this->db->join('account_group AS b', 'a.groups = b.id');
 			if ($act == 'search') {
-				$where = "(`a`.`username` LIKE '%" . $keywords . "%' OR `a`.`name` LIKE '%" . $keywords . "%')";
+				$where = "(`a`.`username` LIKE '%" . $q . "%' OR `a`.`name` LIKE '%" . $q . "%')";
 				$this->db->where($where);
 			}
 			$this->db->where_not_in('a.id', $this->session->userdata('pID'));
@@ -215,9 +215,9 @@ class Account_model extends CI_Model {
 	public function getRecordTotal() {
 		return $this->db->count_all('account_record');
 	}
-	public function getSearchTotal($keywords) {
+	public function getSearchTotal($q) {
 		$this->db->from('account');
-		$where = "(`username` LIKE '%" . $keywords . "%' OR `name` LIKE '%" . $keywords . "%')";
+		$where = "(`username` LIKE '%" . $q . "%' OR `name` LIKE '%" . $q . "%')";
 		$this->db->where($where);
 		$this->db->where_not_in('id', $this->session->userdata('pID'));
 		$this->db->where('groups!=', 'administration');
