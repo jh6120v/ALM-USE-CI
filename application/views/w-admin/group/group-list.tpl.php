@@ -1,3 +1,4 @@
+<script src="/js/w-admin/jquery.pjax.js"></script>
 <script src="/js/w-admin/jquery.timeago.js"></script>
 <script>
 $(function(){

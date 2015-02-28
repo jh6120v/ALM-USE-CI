@@ -420,12 +420,12 @@ $config['csrf_cookie_name'] = 'csrf_token';
 $config['csrf_expire'] = 600;
 $config['csrf_regenerate'] = FALSE;
 $config['csrf_exclude_uris'] = array(
-	'w-admin/account',
-	'w-admin/account/[0-9]+',
 	'w-admin/account/record',
 	'w-admin/account/record/[0-9]+',
-	'w-admin/account/search',
-	'w-admin/account/search/[0-9]+',
+	'w-admin/[a-zA-Z0-9]+',
+	'w-admin/[a-zA-Z0-9]+/[0-9]+',
+	'w-admin/[a-zA-Z0-9]+/search',
+	'w-admin/[a-zA-Z0-9]+/search/[0-9]+',
 );
 
 /*
