@@ -222,6 +222,7 @@ function changeStatus(id, act) {
 			if (json.success == true) {
 				ajaxMessage(2, json.msg);
 				$("span#status-" + id).toggleClass("red green").children("a").attr("onClick", "changeStatus(" + id + ",'" + json.act + "')").text(json.name);
+				$("tr#" + $("form.form").data("page") + "-" + id).find("span.past").attr("title", json.updateTime).timeago("updateFromDOM");
 			} else {
 				ajaxMessage(2, json.msg);
 			}

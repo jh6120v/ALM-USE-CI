@@ -220,6 +220,7 @@ class Account extends CI_Controller {
 					"success" => TRUE,
 					'act' => $this->account_model->status[$this->uri->segment(3)][1],
 					'name' => $this->account_model->status[$this->uri->segment(3)][2],
+					'updateTime' => date('Y-m-d H:i:s'),
 					"msg" => $this->message->msg['public'][$this->account_model->status[$this->uri->segment(3)][3]],
 				));
 			} else {
