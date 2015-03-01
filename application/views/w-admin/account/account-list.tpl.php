@@ -73,7 +73,7 @@ $(function(){
                 <?php endforeach;?>
             <?php else: ?>
                 <tr>
-                    <td colspan="7">目前沒有資料</td>
+                    <td colspan="7" class="column-nodata">目前沒有資料</td>
                 </tr>
             <?php endif;?>
         </tbody>
