@@ -6,7 +6,7 @@ em.group {
 	min-height:32px;
 	display:block;
 	position:relative;
-	padding-left:140px;
+	padding-left:150px;
 }
 em.group > span.first {
 	position:absolute;

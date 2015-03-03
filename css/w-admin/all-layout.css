@@ -395,7 +395,7 @@ span.gotop {
 	/* 
 	→ 表 單 表 格 
 	*/
-	.form-table th, .form-table td {
+	.form-table th, .form-table td, .form-table td.all {
 		width:100%;
 		display:block;
 		padding:5px 0;

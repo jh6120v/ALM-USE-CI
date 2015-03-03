@@ -32,6 +32,27 @@ class Group_model extends CI_Model {
 				),
 			),
 		),
+		"版面設置" => array(
+			"acl" => "layouts",
+			"action" => array(
+				array(
+					"name" => "版面管理",
+					"acl" => "layout",
+					"list_acl" => array(
+						"修改" => "layout-edit",
+					),
+				),
+				array(
+					"name" => "選單管理",
+					"acl" => "nav",
+					"list_acl" => array(
+						"新增" => "nav-add",
+						"修改" => "nav-edit",
+						"刪除" => "nav-del",
+					),
+				),
+			),
+		),
 		"使用者" => array(
 			"acl" => "users",
 			"action" => array(

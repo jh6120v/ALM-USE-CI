@@ -144,6 +144,9 @@ input[disabled], input[type="radio"][disabled].group + label, input[type="checkb
 .regular-text-2 {
 	width:20%;
 }
+.regular-text-3, .regular-select-2 {
+	width:90%;
+}
 .regular-select-1 {
 	width:100px;
 }

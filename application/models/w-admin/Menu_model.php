@@ -29,6 +29,20 @@ class Menu_model extends CI_Model {
 				),
 			),
 		),
+		"版面設置" => array(
+			"tag" => "layouts",
+			"icon" => "icon-screen",
+			"subMenu" => array(
+				"版面管理" => array(
+					"tag" => "layout",
+					"url" => "/w-admin/layout",
+				),
+				"選單管理" => array(
+					"tag" => "nav",
+					"url" => "/w-admin/nav",
+				),
+			),
+		),
 		"使用者" => array(
 			"tag" => "users",
 			"icon" => "icon-users",
