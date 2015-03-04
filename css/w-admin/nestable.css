@@ -1,17 +1,24 @@
 .dd-nav {
   width: 100%;
 }
+/* 左 側 加 入 選 項 */
 .dd-add {
   float: left;
   width: 300px;
   display: block;
   background: #FFF;
-  border: 1px dashed #ccc;
   padding-bottom: 10px;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-shadow: 0px 0px 3px 0px rgba(235,235,235,1);
+  -moz-box-shadow: 0px 0px 3px 0px rgba(235,235,235,1);
+  box-shadow: 0px 0px 3px 0px rgba(235,235,235,1);
 }
-.dd-add > H1.header {
-  padding: 0 5px;
+.dd-add > H1.header, .dd > H1.header {
+  padding: 0 7px;
   background: #E4E4E4;
+  font-size: 15px;
   margin-bottom: 10px;
 }
 .dd-add > div.item {
@@ -27,16 +34,25 @@
   top: 0px;
   display: inline-block;
 }
+
+/* 右 側 選 單 排 列 */
 .dd {
   float: left;
   width: calc(100% - 400px);
+  min-height: 244px;
   position: relative;
   display: block;
-  margin: 0;
-  padding-left: 50px;
-  list-style: none;
-  font-size: 13px;
-  line-height: 20px;
+  margin-left: 50px;
+  background: #FFF;
+  -webkit-box-shadow: 0px 0px 3px 0px rgba(235,235,235,1);
+  -moz-box-shadow: 0px 0px 3px 0px rgba(235,235,235,1);
+  box-shadow: 0px 0px 3px 0px rgba(235,235,235,1);
+}
+.dd > span.note {
+  display: block;
+  padding: 0 10px 10px 10px;
+  font-size: 15px;
+  line-height: 25px;
 }
 .dd-list {
   display: block;
@@ -44,13 +60,16 @@
   margin: 0;
   padding: 0;
 }
+.dd > .dd-list {
+  padding: 0 10px 10px 10px;
+}
 .dd-list .dd-list {
   padding-left: 30px;
 }
 .dd-item,
 .dd-empty,
 .dd-placeholder {
-  display: block;
+  width: 400px;
   position: relative;
   margin-bottom: 5px;
   padding: 0;
@@ -77,11 +96,27 @@
   background: #fff;
 }
 .dd-edit {
-  display: block;
-  min-height: 50px;
+  display: none;
   background: #F7F7F7;
   border: 1px solid #ccc;
   border-top: none;
+  padding: 10px;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+.dd-edit > div.item {
+  position: relative;
+  display: block;
+  min-height: 33px;
+  padding: 0 10px 0 60px;
+  margin-bottom: 5px;
+}
+.dd-edit > div.item > label {
+  position: absolute;
+  left: 10px;
+  top: 0px;
+  display: inline-block;
 }
 .dd-item > span {
   position: absolute;
@@ -95,6 +130,8 @@
 .dd-item > .dd-list {
   margin-top: 5px;
 }
+
+
 .dd-item > button {
   position: relative;
   cursor: pointer;
@@ -163,4 +200,42 @@
 }
 .dd-dragel .dd-handle {
   box-shadow: 2px 4px 6px 0 rgba(0,0,0,.1);
+}
+
+
+@media screen and (max-width:1199px) {
+  /* 左 側 加 入 選 項 */
+
+  /* 右 側 選 單 排 列 */
+  .dd {
+    float: right;
+    width: calc(100% - 350px);
+    margin-left: 50px;
+  }
+  .dd-item,
+  .dd-empty,
+  .dd-placeholder {
+    width: 335px;
+  }
+}
+
+@media screen and (max-width:979px) {
+  .dd-item,
+  .dd-empty,
+  .dd-placeholder {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width:767px) {
+  /* 左 側 加 入 選 項 */
+  .dd-add {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  /* 右 側 選 單 排 列 */
+  .dd {
+    width: 100%;
+    margin-left: 0px;
+  }
 }

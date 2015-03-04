@@ -278,7 +278,7 @@ input[disabled], input[type="radio"][disabled].group + label, input[type="checkb
 		margin-left:0;
 		display:block;
 	}
-	.regular-text-1, .regular-text-2, .regular-select-1 {
+	.regular-text-1, .regular-text-2, .regular-text-3, .regular-select-1, .regular-select-2 {
 		width:100%;
 		margin-bottom:1px;
 	}

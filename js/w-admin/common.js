@@ -270,3 +270,16 @@ function del(id) {
 		return false;
 	}
 }
+function filterChar(pNameStr, pReplaceStr) {
+	//var specials = [" ", "-", "[", "]", "/", "{", "}", "(", ")", "*", "+", "=", "?", ".", ",", "\\", "^", "$", "|", "~", "#", "%", "&", "'", "\"", "!", "@", ";", ":", "<", ">", "_", "`"];
+	var specialsUrl = [" ", "[", "]", "{", "}", "(", ")", "*", ",", "^", "$", "|", "'", "\"", "!", "@", ";", "<", ">", "`"];
+	
+	var regex = RegExp('[' + specialsUrl.join('\\') + ']', 'g');
+	var replaceStr = "";
+	if(null != pReplaceStr){
+    	replaceStr = pReplaceStr;
+	};
+  	var str = pNameStr;
+  	str = str.replace(regex,replaceStr);
+ 	return str;
+}
