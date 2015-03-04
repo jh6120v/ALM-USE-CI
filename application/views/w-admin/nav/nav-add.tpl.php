@@ -105,6 +105,33 @@ $(function(){
            $(this).closest("li.dd-item").data("target", filterChar(target)).attr("data-target", filterChar(target));
         }
     });
+    $("input#goButton").click(function() {
+        if ($("form#" + $(this).data("page")).valid()) {
+            $(window).unbind('beforeunload'); //取消綁定
+            $(this).prop('disabled', 'disabled'); //執行送出時先鎖定按鈕，以避免使用者重複送出。
+
+            $("form#" + $(this).data("page")).ajaxSubmit({
+                type: "POST",
+                url: $(this).parents("form").attr("action"),
+                dataType: "json",
+                timeout: 10000,
+                success: function(json) {
+                    if (json.success == true) {
+                        ajaxMessage(1, json.msg, json.url);
+                    } else {
+                        ajaxMessage(2, json.msg);
+                    }
+                },
+                error: function() {
+                    ajaxMessage(2, "Error!");
+                },
+            });
+            return false;
+        } else {
+            $("form#" + $(this).data("page")).validate().focusInvalid();
+            return false;
+        }
+    });
 });
 </script>
 <H1><?php echo $title;?></H1>
