@@ -56,6 +56,100 @@ class Nav extends CI_Controller {
 		);
 		$this->load->view('w-admin/page.tpl.php', $data);
 	}
+	// 新增儲存
+	public function aSave() {
+		$this->load->library('form_validation');
+		if ($this->input->is_ajax_request()) {
+			//檢查是否有權限
+			if ($this->common->checkLimits('nav-add') == FALSE) {
+				$this->message->getAjaxMsg(array(
+					'success' => FALSE,
+					'msg' => $this->message->msg['public'][2],
+				));
+			}
+			// 檢查必要欄位是否填寫
+			$this->form_validation->set_rules('title', '選單名稱', 'required');
+			$this->form_validation->set_rules('pNav', '主選單', 'required|numeric');
+			if ($this->form_validation->run()) {
+				$result = $this->nav_model->aSave();
+				if ($result == TRUE) {
+					$this->message->getAjaxMsg(array(
+						"success" => TRUE,
+						"msg" => $this->message->msg['public'][5],
+						"url" => '/w-admin/nav',
+					));
+				} else {
+					$this->message->getAjaxMsg(array(
+						"success" => FALSE,
+						"msg" => $this->message->msg['public'][8],
+					));
+				}
+			} else {
+				$this->message->getAjaxMsg(array(
+					"success" => FALSE,
+					"msg" => validation_errors(),
+				));
+			}
+		}
+	}
+	// 修改儲存
+	public function eSave() {
+		if ($this->input->is_ajax_request()) {
+			// 檢查是否有權限
+			if ($this->common->checkLimits('nav-edit') == FALSE) {
+				$this->message->getAjaxMsg(array(
+					'success' => FALSE,
+					'msg' => $this->message->msg['public'][2],
+				));
+			}
+			$this->load->library('form_validation');
+			// 檢查必要欄位是否填寫
+			$this->form_validation->set_rules('title', '選單名稱', 'required');
+			$this->form_validation->set_rules('pNav', '主選單', 'required|numeric');
+			if ($this->form_validation->run()) {
+				$result = $this->nav_model->eSave();
+				if ($result == TRUE) {
+					$this->message->getAjaxMsg(array(
+						"success" => TRUE,
+						"msg" => $this->message->msg['public'][6],
+						"url" => '/w-admin/nav/' . $this->input->post('page', TRUE),
+					));
+				} else {
+					$this->message->getAjaxMsg(array(
+						"success" => FALSE,
+						"msg" => $this->message->msg['public'][8],
+					));
+				}
+			} else {
+				$this->message->getAjaxMsg(array(
+					"success" => FALSE,
+					"msg" => validation_errors(),
+				));
+			}
+		}
+	}
+	public function edit() {
+		// 檢查是否有權限
+		if ($this->common->checkLimits('nav-edit') == FALSE) {
+			$this->message->getMsg($this->message->msg['public'][2]);
+		}
+		// 取資料
+		$menu = $this->common->getMenuContent('layouts', 'nav');
+		$content = $this->getEditFormContent();
+		$data = array(
+			'menu' => $menu,
+			'content' => $content,
+		);
+		$this->load->view('w-admin/page.tpl.php', $data);
+	}
+	// 單選刪除
+	public function delete() {
+		$this->common->delete('nav');
+	}
+	// 多選刪除
+	public function mDelete() {
+		$this->common->mDelete('nav');
+	}
 	// 取全部資料
 	private function getListContent($act = 'list') {
 		// 分頁設定
@@ -100,6 +194,7 @@ class Nav extends CI_Controller {
 			'title' => $title,
 			'tag' => 'nav',
 			'q' => $q,
+			'mStatus' => 'close',
 			'result' => $this->nav_model->getNavData($act, $this->pageNum, $offset, $q),
 		);
 		return $this->load->view('w-admin/nav/nav-list.tpl.php', $data, TRUE);
@@ -113,5 +208,44 @@ class Nav extends CI_Controller {
 			'pNav' => $primary,
 		);
 		return $this->load->view('w-admin/nav/nav-add.tpl.php', $data, TRUE);
+	}
+	// 取修改表單
+	private function getEditFormContent() {
+		$primary = $this->nav_model->getPrimaryNavNow();
+		$primary = ($primary != FALSE) ? "(目前設定：" . $primary->title . ")" : "";
+		$result = $this->nav_model->getNavData('edit');
+		if ($result != FALSE) {
+			$mData = unserialize($result->mData);
+			$data = array(
+				'title' => '編輯選單',
+				'pNav' => $primary,
+				'result' => $result,
+				'nav' => $this->getNavTree($mData),
+				'page' => $this->uri->segment(5),
+			);
+			return $this->load->view('w-admin/nav/nav-edit.tpl.php', $data, TRUE);
+		} else {
+			$this->message->getMsg($this->message->msg['public'][0]);
+		}
+	}
+	// 選單遞迴處理
+	private function getNavTree($mData = array()) {
+		$nav = '';
+		foreach ($mData as $v) {
+			if (isset($v->children)) {
+				$subMenu = $this->getNavTree($v->children);
+			} else {
+				$subMenu = '';
+			}
+			$data = array(
+				'id' => $v->id,
+				'name' => $v->name,
+				'link' => $v->link,
+				'target' => $v->target,
+				'subMenu' => $subMenu,
+			);
+			$nav .= $this->load->view('w-admin/nav/nav-tree.tpl.php', $data, TRUE);
+		}
+		return $nav;
 	}
 }

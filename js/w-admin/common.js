@@ -1,5 +1,6 @@
 // JavaScript Document
 $(window).load(function() {
+	$(".actionChange").prop('selectedIndex', 0);
 	$("ul#top-bar > li > a").on("touchstart", function(e) {
 		//e.preventDefault();	
 		$(this).next("ul").show();

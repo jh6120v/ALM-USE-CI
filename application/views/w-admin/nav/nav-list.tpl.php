@@ -41,16 +41,11 @@ $(function(){
                         </td>
                         <td class="column-title">
                             <H1>
-                                <a <?php if ($this->session->userdata('acl') == 'administration' || in_array($tag . '-edit', $this->session->userdata('acl'))): ?>href="/w-admin/nav/edit/<?php echo $v->id;?><?php echo ($this->uri->segment(3) != 'search') ? '/' . $this->uri->segment(3, 1) : '';?>"<?php endif;?>><?php echo $v->title;if ($v->primaryNav == 0):echo '(主選單)';endif;?></a>
+                                <a <?php if ($this->session->userdata('acl') == 'administration' || in_array($tag . '-edit', $this->session->userdata('acl'))): ?>href="/w-admin/nav/edit/<?php echo $v->id;?><?php echo ($this->uri->segment(3) != 'search') ? '/' . $this->uri->segment(3, 1) : '';?>"<?php endif;?>><?php echo $v->title;if ($v->pNav == 0):echo '(主選單)';endif;?></a>
                             </H1>
                             <div class="action">
                                 <?php if ($this->session->userdata('acl') == 'administration' || in_array($tag . '-edit', $this->session->userdata('acl'))): ?>
                                     <a class="green" href="/w-admin/nav/edit/<?php echo $v->id;?><?php echo ($this->uri->segment(3) != 'search') ? '/' . $this->uri->segment(3, 1) : '';?>">編輯</a>
-                                    <?php if ($v->status == 0): ?>
-                                        | <span id="status-<?php echo $v->id;?>" class="green"><a onClick='changeStatus(<?php echo $v->id;?>,"close")'>已開啟</a></span>
-                                    <?php else: ?>
-                                        | <span id="status-<?php echo $v->id;?>" class="red"><a onClick='changeStatus(<?php echo $v->id;?>,"open")'>已關閉</a></span>
-                                    <?php endif;?>
                                 <?php endif;?>
                                 <?php if ($this->session->userdata('acl') == 'administration' || in_array($tag . '-del', $this->session->userdata('acl'))): ?>
                                     | <span class="red"><a class="del" onClick="del(<?php echo $v->id;?>)">刪除</a></span>

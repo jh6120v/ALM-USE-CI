@@ -6,11 +6,11 @@
 <H1><?php echo $title;?></H1>
 <em>紅色文字之欄位為必填。</em>
 <div class="ajax-response"></div>
-<?php echo form_open('w-admin/nav/aSave', 'id="nav" name="form" autocomplete="off"');?>
+<?php echo form_open('w-admin/nav/eSave', 'id="nav" name="form" autocomplete="off"');?>
     <table class="form-table">
         <tr>
             <th><span class="red">選單名稱</span></th>
-            <td><input type="text" name="title" id="title" class="regular-text-1"></td>
+            <td><input type="text" name="title" id="title" value="<?php echo $result->title;?>" class="regular-text-1"></td>
         </tr>
         <tr>
             <td class="all" colspan="2">
@@ -47,6 +47,11 @@
                     <div class="dd" id="nestable">
                         <H1 class="header">選單結構</H1>
                         <span class="note">從左邊的欄位新增選單項目，拖曳各個項目至你想要的順序，點擊右邊的箭頭可進行更多的設定。</span>
+                        <?php if ($nav != ''): ?>
+                            <ol class="dd-list">
+                                <?php echo $nav;?>
+                            </ol>
+                        <?php endif;?>
                     </div>
                 </div>
             </td>
@@ -54,13 +59,15 @@
         <tr>
             <th><span class="red">主選單</span></th>
             <td>
-                <span class="inline"><input type="radio" name="pNav" value="0" id="pNav-0" class="group"> <label for="pNav-0">是</label></span>
-                <span class="inline"><input type="radio" name="pNav" value="1" id="pNav-1" class="group"> <label for="pNav-1">否</label></span>
-                <?php echo $pNav;?>
+                <span class="inline"><input type="radio" name="pNav" value="0" id="pNav-0" class="group" <?php if ($result->pNav == 0):echo 'checked';endif;?>> <label for="pNav-0">是</label></span>
+                <span class="inline"><input type="radio" name="pNav" value="1" id="pNav-1" class="group" <?php if ($result->pNav == 1):echo 'checked';endif;?>> <label for="pNav-1">否</label></span>
+                <?php if ($result->pNav != 0):echo $pNav;endif;?>
             </td>
         </tr>
     </table>
     <p class="submit">
-        <input type="button" id="goButton" class="button" data-page='nav' value="新增資料">
+        <input type="button" id="goButton" class="button" data-page='nav' value="更新資料">
     </p>
+    <input type="hidden" name="id" value="<?php echo $result->id?>">
+    <input type="hidden" name="page" value="<?php echo $page;?>">
 </form>
