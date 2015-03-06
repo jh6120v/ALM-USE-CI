@@ -8,10 +8,20 @@ class Common {
 		$this->CI->load->library('session');
 	}
 	// 檢查登入狀態
-	public function checkLoginStatus() {
+	public function checkLoginStatus($m = '') {
 		if ($this->CI->session->userdata('status') != NULL && $this->CI->session->userdata('status') == "success") {
 			return TRUE;
 		} else {
+			if ($m == 'i') {
+				if ($this->CI->input->is_ajax_request()) {
+					$this->CI->message->getAjaxMsg(array(
+						'success' => FALSE,
+						'msg' => $this->CI->message->msg['public'][1],
+					));
+				} else {
+					redirect('/w-admin', 'refresh');
+				}
+			}
 			return FALSE;
 		}
 	}

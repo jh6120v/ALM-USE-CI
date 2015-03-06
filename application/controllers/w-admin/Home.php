@@ -2,12 +2,10 @@
 class Home extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
+		// 判斷是否為登入狀態
+		$this->common->checkLoginStatus('i');
 	}
 	public function index() {
-		// 判斷是否為登入狀態
-		if ($this->common->checkLoginStatus() == FALSE) {
-			redirect('/w-admin', 'refresh');
-		}
 		$menu = $this->common->getMenuContent('console', 'home');
 		$content = $this->getHomeContent();
 		$data = array(

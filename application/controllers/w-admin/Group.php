@@ -3,18 +3,9 @@ class Group extends CI_Controller {
 	public $pageNum = 15;
 	public function __construct() {
 		parent::__construct();
-		$this->load->model('w-admin/group_model');
 		// 判斷是否為登入狀態
-		if ($this->common->checkLoginStatus() == FALSE) {
-			if ($this->input->is_ajax_request()) {
-				$this->message->getAjaxMsg(array(
-					'success' => FALSE,
-					'msg' => $this->message->msg['public'][1],
-				));
-			} else {
-				redirect('/w-admin', 'refresh');
-			}
-		}
+		$this->common->checkLoginStatus('i');
+		$this->load->model('w-admin/group_model');
 	}
 	public function index() {
 		// 檢查是否有權限
