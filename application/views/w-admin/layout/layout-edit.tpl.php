@@ -19,15 +19,15 @@
             <td><?php echo $result->title;?></td>
         </tr>
         <tr>
-            <th><span class="red">標題</span></th>
+            <th><span class="red">Title</span></th>
             <td><input type="text" name="seoTitle" value="<?php echo $result->seoTitle;?>" class="regular-text-1"></td>
         </tr>
         <tr>
-            <th><span class="red">關鍵字</span></th>
+            <th><span class="red">Keywords</span></th>
             <td><input type="text" name="seoKey" value="<?php echo $result->seoKey;?>" class="regular-text-1"></td>
         </tr>
         <tr>
-            <th><span class="red">描述</span></th>
+            <th><span class="red">Description</span></th>
             <td><input type="text" name="seoDesc" value="<?php echo $result->seoDesc;?>" class="regular-text-1"></td>
         </tr>
         <tr>
@@ -42,9 +42,9 @@
             </td>
         </tr>
         <tr>
-            <th><span class="red">選單</span></th>
+            <th>選單</th>
             <td>
-            	<select name="nav" class="nav regular-select-1">
+            	<select name="nav" class="nav regular-select-1" <?php if ($result->position == 0):echo 'disabled';endif;?>>
             		<option value="0" <?php if ($result->nav == 0):echo 'selected';endif;?>>無選單</option>
             		<?php foreach ($nav as $k => $v): ?>
             			<?php $select = ($v->id == $result->nav) ? 'selected' : '';?>

@@ -32,6 +32,47 @@ class Layout extends CI_Controller {
 		);
 		$this->load->view('w-admin/page.tpl.php', $data);
 	}
+	// 修改儲存
+	public function eSave() {
+		if ($this->input->is_ajax_request()) {
+			// 檢查是否有權限
+			if ($this->common->checkLimits('layout-edit') == FALSE) {
+				$this->message->getAjaxMsg(array(
+					'success' => FALSE,
+					'msg' => $this->message->msg['public'][2],
+				));
+			}
+			$this->load->library('form_validation');
+			// 檢查必要欄位是否填寫
+			$this->form_validation->set_rules('seoTitle', 'Title', 'required');
+			$this->form_validation->set_rules('seoKey', 'Keyowrds', 'required');
+			$this->form_validation->set_rules('seoDesc', 'Description', 'required');
+			$this->form_validation->set_rules('position', '側欄位置', 'required|numeric');
+			if ($this->input->post('position', TRUE) != 0) {
+				$this->form_validation->set_rules('nav', '選單', 'required|numeric|callback_navCheck');
+			}
+			if ($this->form_validation->run()) {
+				$result = $this->layout_model->eSave();
+				if ($result == TRUE) {
+					$this->message->getAjaxMsg(array(
+						"success" => TRUE,
+						"msg" => $this->message->msg['public'][6],
+						"url" => '/w-admin/layout/' . $this->input->post('page', TRUE),
+					));
+				} else {
+					$this->message->getAjaxMsg(array(
+						"success" => FALSE,
+						"msg" => $this->message->msg['public'][8],
+					));
+				}
+			} else {
+				$this->message->getAjaxMsg(array(
+					"success" => FALSE,
+					"msg" => validation_errors(),
+				));
+			}
+		}
+	}
 	// 取全部資料
 	private function getListContent() {
 		$data = array(
@@ -54,6 +95,18 @@ class Layout extends CI_Controller {
 			return $this->load->view('w-admin/layout/layout-edit.tpl.php', $data, TRUE);
 		} else {
 			$this->message->getMsg($this->message->msg['public'][0]);
+		}
+	}
+	// 驗證callback函數 -> 選單是否存在
+	public function navCheck($str) {
+		if ($str != 0) {
+			$num = $this->layout_model->getNavCheckData();
+			if ($num <= 0) {
+				$this->form_validation->set_message('navCheck', '選單不存在!');
+				return FALSE;
+			} else {
+				return TRUE;
+			}
 		}
 	}
 }
