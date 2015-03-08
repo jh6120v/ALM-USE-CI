@@ -66,20 +66,16 @@ class Menu_model extends CI_Model {
 			),
 		),
 		"頁面" => array(
-			"tag" => "main",
+			"tag" => "pages",
 			"icon" => "icon-list",
 			"subMenu" => array(
 				"全部頁面" => array(
-					"tag" => "pages",
-					"url" => "pages.php",
+					"tag" => "page",
+					"url" => "/w-admin/page",
 				),
 				"新增頁面" => array(
-					"tag" => "pages-add",
-					"url" => "pages.php?act=add",
-				),
-				"分類" => array(
-					"tag" => "category",
-					"url" => "category.php",
+					"tag" => "page-add",
+					"url" => "/w-admin/page/add",
 				),
 			),
 		),

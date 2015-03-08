@@ -23,6 +23,10 @@ class Nav extends CI_Controller {
 		}
 	}
 	public function search() {
+		// 檢查是否有權限
+		if ($this->common->checkLimits('nav') == FALSE) {
+			$this->message->getMsg($this->message->msg['public'][2]);
+		}
 		// 取資料
 		$data['content'] = $this->getListContent('search');
 

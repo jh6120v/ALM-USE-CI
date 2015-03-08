@@ -5,6 +5,13 @@ class Group_model extends CI_Model {
 			"acl" => "console",
 			"action" => array(
 				array(
+					"name" => "首頁",
+					"acl" => "home",
+					"list_acl" => array(
+
+					),
+				),
+				array(
 					"name" => "備註板",
 					"acl" => "remark",
 					"list_acl" => array(
@@ -70,27 +77,27 @@ class Group_model extends CI_Model {
 					"acl" => "account-record",
 					"list_acl" => array(),
 				),
+				array(
+					"name" => "群組管理",
+					"acl" => "group",
+					"list_acl" => array(
+						"新增" => "group-add",
+						"修改" => "group-edit",
+						"刪除" => "group-del",
+					),
+				),
 			),
 		),
 		"頁面" => array(
-			"acl" => "main",
+			"acl" => "pages",
 			"action" => array(
 				array(
 					"name" => "頁面管理",
-					"acl" => "pages",
+					"acl" => "page",
 					"list_acl" => array(
-						"新增" => "pages-add",
-						"修改" => "pages-edit",
-						"刪除" => "pages-del",
-					),
-				),
-				array(
-					"name" => "分類管理",
-					"acl" => "category",
-					"list_acl" => array(
-						"新增" => "category-add",
-						"修改" => "category-edit",
-						"刪除" => "category-del",
+						"新增" => "page-add",
+						"修改" => "page-edit",
+						"刪除" => "page-del",
 					),
 				),
 			),

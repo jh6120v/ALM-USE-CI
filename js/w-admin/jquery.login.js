@@ -34,7 +34,8 @@ $(function() {
 	});
 	
 	function ajaxSubmit(){
-		$("input#goButton").click(function(){
+		$("input#goButton").click(function(e){
+			e.preventDefault();
 			if($("form#"+$(this).data("page")).valid()){
 				$(this).prop('disabled', 'disabled');  //執行送出時先鎖定按鈕，以避免使用者重複送出。
 							

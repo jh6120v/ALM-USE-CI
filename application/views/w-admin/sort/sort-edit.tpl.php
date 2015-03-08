@@ -28,7 +28,7 @@
         </tr>
     </table>
     <p class="submit">
-        <input type="button" id="goButton" class="button" data-page='sort' value="更新資料">
+        <input type="submit" id="goButton" class="button" data-page='sort' value="更新資料">
     </p>
     <input type="hidden" name="id" value="<?php echo $result->id;?>">
 </form>

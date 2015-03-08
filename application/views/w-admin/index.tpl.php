@@ -29,7 +29,7 @@
         	<label for="rememberme"><input type="checkbox" name="rememberme" id="rememberme" value="true" checked> 記住登入資訊</label>
         </p>
         <p class="botton">
-        	<input type="button" id="goButton" class="button" data-page='login' value="登入">
+        	<input type="submit" id="goButton" class="button" data-page='login' value="登入">
         </p>
     </form>
 	<p class="copyright">Copyright © <a href="/"><?php echo $this->config->item("webName");?></a></p>

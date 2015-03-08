@@ -1,9 +1,29 @@
 // JavaScript Document
-$(function() {
+$(document).ready(function() {
 	CKEDITOR.replace( 'ckeditor', {
-		extraPlugins : 'stat,qrc,lineheight,autogrow',
-		autoGrow_minHeight : 400
+		toolbar: [
+			{ name: 'document', items: [ 'Source', '-', 'Preview' ] },
+			{ name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
+			{ name: 'insert', items: [ '-','Image', 'Table', 'quicktable' ] },
+			{ name: 'styles', items: [ 'FontSize', 'lineheight' ] },
+		],
+		extraPlugins : 'stat,qrc,lineheight',
+		on : {
+			instanceReady: function(ev) {
+				editor = ev.editor;
+			}
+		}
 	} );	
+	$("select.position").on("change", function() {
+		$this = $(this).find(":selected").val();
+		if($this == 2 || $this == 3) {
+			editor.setReadOnly(false);			
+			$(".nav").prop("disabled",false);
+		} else {
+			editor.setReadOnly();			
+			$(".nav").prop("disabled",true);
+		}
+	});
 	$("#layout").validate({
 		rules: {
 			seoTitle: {
@@ -36,15 +56,4 @@ $(function() {
 	});
 	ajaxSubmit(false, true);
 	leave();
-	$("select.position").on("change", function() {
-		$this = $(this).find(":selected").val();
-		if($this == 1 || $this == 2) {
-			editor.setReadOnly(false);			
-			$(".nav").prop("disabled",false);
-		} else {
-			editor.setReadOnly();			
-			$(".nav").prop("disabled",true);
-		}
-	});
-
 });

@@ -44,11 +44,8 @@ class Layout extends CI_Controller {
 			}
 			$this->load->library('form_validation');
 			// 檢查必要欄位是否填寫
-			$this->form_validation->set_rules('seoTitle', 'Title', 'required');
-			$this->form_validation->set_rules('seoKey', 'Keyowrds', 'required');
-			$this->form_validation->set_rules('seoDesc', 'Description', 'required');
 			$this->form_validation->set_rules('position', '側欄位置', 'required|numeric');
-			if ($this->input->post('position', TRUE) != 0) {
+			if ($this->input->post('position', TRUE) != 1) {
 				$this->form_validation->set_rules('nav', '選單', 'required|numeric|callback_navCheck');
 			}
 			if ($this->form_validation->run()) {

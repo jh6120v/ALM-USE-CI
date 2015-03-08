@@ -61,7 +61,6 @@ class Sort_model extends CI_Model {
 	}
 	public function getSortArray($type) {
 		switch ($type) {
-			case "pages":
 			case "works":
 			case "album":
 			case "albumPhoto":

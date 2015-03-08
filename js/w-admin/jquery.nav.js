@@ -117,7 +117,8 @@ $(function() {
            $(this).closest("li.dd-item").data("target", filterChar(target)).attr("data-target", filterChar(target));
         }
     });
-    $("input#goButton").click(function() {
+    $("input#goButton").click(function(e) {
+        e.preventDefault();
         if ($("form#" + $(this).data("page")).valid()) {
             $(window).unbind('beforeunload'); //取消綁定
             $(this).prop('disabled', 'disabled'); //執行送出時先鎖定按鈕，以避免使用者重複送出。
