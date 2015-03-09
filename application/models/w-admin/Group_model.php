@@ -43,10 +43,12 @@ class Group_model extends CI_Model {
 			"acl" => "layouts",
 			"action" => array(
 				array(
-					"name" => "版面管理",
-					"acl" => "layout",
+					"name" => "側欄設定",
+					"acl" => "sidebar",
 					"list_acl" => array(
-						"修改" => "layout-edit",
+						"新增" => "sidebar-add",
+						"修改" => "sidebar-edit",
+						"刪除" => "sidebar-del",
 					),
 				),
 				array(
@@ -188,100 +190,65 @@ class Group_model extends CI_Model {
 		}
 	}
 	public function aSave() {
-		try {
-			// 欄位處理
-			$acl = ($this->input->post('acl', TRUE) == NULL) ? serialize(array()) : serialize($this->input->post('acl', TRUE));
+		// 欄位處理
+		$acl = ($this->input->post('acl', TRUE) == NULL) ? serialize(array()) : serialize($this->input->post('acl', TRUE));
+		$data = array(
+			'title' => $this->common->htmlFilter($this->input->post('title')),
+			'acl' => $acl,
+			'status' => $this->common->htmlFilter($this->input->post('status')),
+			'ip' => $this->input->ip_address(),
+			'updateTime' => date('Y-m-d H:i:s'),
+		);
+		$this->db->insert('account_group', $data);
 
-			$data = array(
-				'title' => $this->common->htmlFilter($this->input->post('title')),
-				'acl' => $acl,
-				'status' => $this->common->htmlFilter($this->input->post('status')),
-				'ip' => $this->input->ip_address(),
-				'updateTime' => date('Y-m-d H:i:s'),
-			);
-			$this->db->insert('account_group', $data);
-
-			return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
-		} catch (Exception $e) {
-			exit($e->getMessage());
-		}
+		return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
 	}
 	public function eSave() {
-		try {
-			// 欄位處理
-			$acl = ($this->input->post('acl', TRUE) == NULL) ? serialize(array()) : serialize($this->input->post('acl', TRUE));
-			$data = array(
-				'title' => $this->common->htmlFilter($this->input->post('title')),
-				'acl' => $acl,
-				'status' => $this->common->htmlFilter($this->input->post('status')),
-				'ip' => $this->input->ip_address(),
-				'updateTime' => date('Y-m-d H:i:s'),
-			);
-			$this->db->where('id', $this->input->post('id', TRUE));
-			$this->db->update('account_group', $data);
+		// 欄位處理
+		$acl = ($this->input->post('acl', TRUE) == NULL) ? serialize(array()) : serialize($this->input->post('acl', TRUE));
+		$data = array(
+			'title' => $this->common->htmlFilter($this->input->post('title')),
+			'acl' => $acl,
+			'status' => $this->common->htmlFilter($this->input->post('status')),
+			'ip' => $this->input->ip_address(),
+			'updateTime' => date('Y-m-d H:i:s'),
+		);
+		$this->db->where('id', $this->input->post('id', TRUE));
+		$this->db->update('account_group', $data);
 
-			return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
-		} catch (Exception $e) {
-			exit($e->getMessage());
-		}
+		return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
 	}
 	public function changeStatus() {
-		try {
-			$data = array(
-				'status' => $this->message->status[$this->uri->segment(3)][0],
-				'updateTime' => date('Y-m-d H:i:s'),
-			);
-			$this->db->where('id', $this->input->post('id', TRUE));
-			$this->db->update('account_group', $data);
+		$data = array(
+			'status' => $this->message->status[$this->uri->segment(3)][0],
+			'updateTime' => date('Y-m-d H:i:s'),
+		);
+		$this->db->where('id', $this->input->post('id', TRUE));
+		$this->db->update('account_group', $data);
 
-			return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
-		} catch (Exception $e) {
-			exit($e->getMessage());
-		}
+		return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
 	}
 	public function delete() {
-		try {
-			$this->db->where('id', $this->input->post('id', TRUE));
-			$this->db->delete('account_group');
+		$this->db->where('id', $this->input->post('id', TRUE));
+		$this->db->delete('account_group');
 
-			return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
-		} catch (Exception $e) {
-			exit($e->getMessage());
-		}
+		return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
 	}
 	public function mChangeStatus() {
-		try {
-			// 檢查查詢結果筆數是否與欲查訊id個數相同
-			$num = $this->db->from('account_group')->where_in('id', $this->input->post('id', TRUE))->count_all_results();
-			if ($num != count($this->input->post('id', TRUE))) {
-				return FALSE;
-			}
-			$data = array(
-				'status' => $this->message->status[$this->uri->segment(3)][0],
-				'updateTime' => date('Y-m-d H:i:s'),
-			);
-			$this->db->where_in('id', $this->input->post('id', TRUE));
-			$this->db->update('account_group', $data);
+		$data = array(
+			'status' => $this->message->status[$this->uri->segment(3)][0],
+			'updateTime' => date('Y-m-d H:i:s'),
+		);
+		$this->db->where_in('id', $this->input->post('id', TRUE));
+		$this->db->update('account_group', $data);
 
-			return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
-		} catch (Exception $e) {
-			exit($e->getMessage());
-		}
+		return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
 	}
 	public function mDelete() {
-		try {
-			// 檢查查詢結果筆數是否與欲查訊id個數相同
-			$num = $this->db->from('account_group')->where_in('id', $this->input->post('id', TRUE))->count_all_results();
-			if ($num != count($this->input->post('id', TRUE))) {
-				return FALSE;
-			}
-			$this->db->where_in('id', $this->input->post('id', TRUE));
-			$this->db->delete('account_group');
+		$this->db->where_in('id', $this->input->post('id', TRUE));
+		$this->db->delete('account_group');
 
-			return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
-		} catch (Exception $e) {
-			exit($e->getMessage());
-		}
+		return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
 	}
 	public function getListTotal() {
 		return $this->db->count_all('account_group');

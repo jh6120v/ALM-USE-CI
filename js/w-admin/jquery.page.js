@@ -1,29 +1,10 @@
 // JavaScript Document
 $(document).ready(function() {
-	if ($("select.position").length > 0) {
-		CKEDITOR.replace( 'ckeditor', {
-			toolbar: [
-				{ name: 'document', items: [ 'Source', '-', 'Preview' ] },
-				{ name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
-				{ name: 'insert', items: [ '-','Image', 'Table', 'quicktable' ] },
-				{ name: 'styles', items: [ 'FontSize', 'lineheight' ] },
-			],
-			extraPlugins : 'stat,qrc,lineheight',
-			on : {
-				instanceReady: function(ev) {
-					editor = ev.editor;
-				}
-			}
-		} );
-	}
-	$("select.position").on("change", function() {
-		$this = $(this).find(":selected").val();
-		if($this == 2 || $this == 3) {
-			editor.setReadOnly(false);
-			$(".nav").prop("disabled",false);
+	$("input[name=tag]").on("change keyup",function(){
+		if ($(this).val() == "") {
+			$("span.tag").text("標籤");
 		} else {
-			editor.setReadOnly();			
-			$(".nav").prop("disabled",true);
+			$("span.tag").text($(this).val());
 		}
 	});
 	$("#page").validate({

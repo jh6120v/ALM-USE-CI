@@ -13,7 +13,10 @@
         </tr>
         <tr>
             <th><span class="red">標籤</span></th>
-            <td><input type="text" name="tag" class="regular-text-1" value="<?php echo $result->tag;?>"></td>
+            <td>
+                <input type="text" name="tag" class="regular-text-1" value="<?php echo $result->tag;?>"><br>
+                頁面固定網址：http://<?php echo $this->config->item("webDomain");?>/page/<span class="tag"><?php echo $result->tag;?></span>
+            </td>
         </tr>
         <tr>
             <th>Title</th>
@@ -47,36 +50,20 @@
             <th>內文</th>
             <td><textarea name="body" class="ckeditor"><?php echo htmlspecialchars($result->body);?></textarea></td>
         </tr>
-        <?php if ($this->common->checkLimits('layout-edit') == TRUE): ?>
-            <tr>
-                <th><span class="red">側欄位置</span></th>
-                <td>
-                    <select name="position" class="position regular-select-1">
-                        <option value="">請選擇</option>
-                        <option value="0" <?php if ($result->position == 0):echo 'selected';endif;?>>共用設定</option>
-                        <option value="1" <?php if ($result->position == 1):echo 'selected';endif;?>>無側欄</option>
-                        <option value="2" <?php if ($result->position == 2):echo 'selected';endif;?>>左側</option>
-                        <option value="3" <?php if ($result->position == 3):echo 'selected';endif;?>>右側</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <th>選單</th>
-                <td>
-                    <select name="nav" class="nav regular-select-1" <?php if ($result->position == 0 || $result->position == 1):echo 'disabled';endif;?>>
-                        <option value="0" <?php if ($result->nav == 0):echo 'selected';endif;?>>無選單</option>
-                        <?php foreach ($nav as $k => $v): ?>
-                            <?php $select = ($v->id == $result->nav) ? 'selected' : '';?>
+        <tr>
+            <th><span class="red">側欄設定</span></th>
+            <td>
+                <select name="sidebar" class="regular-select-1">
+                    <option value="0" <?php if ($result->sidebar == 0):echo 'selected';endif;?>>無側欄</option>
+                    <?php if ($sidebar != FALSE): ?>
+                        <?php foreach ($sidebar as $k => $v): ?>
+                            <?php $select = ($v->id == $result->sidebar) ? 'selected' : '';?>
                             <option value="<?php echo $v->id;?>" <?php echo $select;?>><?php echo $v->title;?></option>
                         <?php endforeach;?>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <th>側欄自訂內容</th>
-                <td><textarea name="content" id="ckeditor" <?php if ($result->position == 0 || $result->position == 1):echo 'disabled';endif;?>><?php echo htmlspecialchars($result->content);?></textarea></td>
-            </tr>
-        <?php endif;?>
+                    <?php endif;?>
+                </select>
+            </td>
+        </tr>
     </table>
     <p class="submit">
         <input type="submit" id="goButton" class="button" data-page='page' value="更新資料">

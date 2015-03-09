@@ -38,17 +38,13 @@ class Page_model extends CI_Model {
 			'seoDesc' => $this->common->htmlFilter($this->input->post('seoDesc')),
 			'status' => $this->common->htmlFilter($this->input->post('status')),
 			'body' => $this->input->post('body'),
-			'position' => $this->common->htmlFilter($this->input->post('position')),
+			'sidebar' => $this->common->htmlFilter($this->input->post('sidebar')),
 			'ip' => $this->input->ip_address(),
 			'updateTime' => date('Y-m-d H:i:s'),
 		);
 		// 欄位處理
 		if ($this->input->post('locked', TRUE) != NULL || $this->session->userdata('acl') == "administration") {
 			$data['locked'] = $this->input->post('locked', TRUE);
-		}
-		if ($this->input->post('position', TRUE) != NULL && $this->input->post('position', TRUE) != 0 && $this->input->post('position', TRUE) != 1) {
-			$data['nav'] = $this->common->htmlFilter($this->input->post('nav'));
-			$data['content'] = $this->input->post('content');
 		}
 		$this->db->insert('page', $data);
 
@@ -63,7 +59,7 @@ class Page_model extends CI_Model {
 			'seoDesc' => $this->common->htmlFilter($this->input->post('seoDesc')),
 			'status' => $this->common->htmlFilter($this->input->post('status')),
 			'body' => $this->input->post('body'),
-			'position' => $this->common->htmlFilter($this->input->post('position')),
+			'sidebar' => $this->common->htmlFilter($this->input->post('sidebar')),
 			'ip' => $this->input->ip_address(),
 			'updateTime' => date('Y-m-d H:i:s'),
 		);
@@ -71,14 +67,6 @@ class Page_model extends CI_Model {
 		if ($this->input->post('locked', TRUE) != NULL && $this->session->userdata('acl') == "administration") {
 			$data['locked'] = $this->input->post('locked', TRUE);
 		}
-		if ($this->input->post('position', TRUE) != NULL && $this->input->post('position', TRUE) != 0 && $this->input->post('position', TRUE) != 1) {
-			$data['nav'] = $this->common->htmlFilter($this->input->post('nav'));
-			$data['content'] = $this->input->post('content');
-		} else {
-			$data['nav'] = 0;
-			$data['content'] = '';
-		}
-
 		$this->db->where('id', $this->input->post('id', TRUE));
 		$this->db->update('page', $data);
 
@@ -95,17 +83,12 @@ class Page_model extends CI_Model {
 		return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
 	}
 	public function delete() {
-		$this->db->where('id', $this->input->post('id', TRUE));
+		$this->db->where(array('locked' => '1', 'id' => $this->input->post('id', TRUE)));
 		$this->db->delete('page');
 
 		return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
 	}
 	public function mChangeStatus() {
-		// 檢查查詢結果筆數是否與欲查訊id個數相同
-		$num = $this->db->from('page')->where_in('id', $this->input->post('id', TRUE))->count_all_results();
-		if ($num != count($this->input->post('id', TRUE))) {
-			return FALSE;
-		}
 		$data = array(
 			'status' => $this->message->status[$this->uri->segment(3)][0],
 			'updateTime' => date('Y-m-d H:i:s'),
@@ -116,12 +99,7 @@ class Page_model extends CI_Model {
 		return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
 	}
 	public function mDelete() {
-		// 檢查查詢結果筆數是否與欲查訊id個數相同
-		$num = $this->db->from('page')->where_in('id', $this->input->post('id', TRUE))->count_all_results();
-		if ($num != count($this->input->post('id', TRUE))) {
-			return FALSE;
-		}
-		$this->db->where_in('id', $this->input->post('id', TRUE));
+		$this->db->where('locked', '1')->where_in('id', $this->input->post('id', TRUE));
 		$this->db->delete('page');
 
 		return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
@@ -137,8 +115,8 @@ class Page_model extends CI_Model {
 
 		return $num;
 	}
-	public function getNav() {
-		$query = $this->db->select('id,title')->from('nav')->order_by('id', 'DESC')->get();
+	public function getSidebar() {
+		$query = $this->db->select('id,title')->from('sidebar')->order_by('id', 'DESC')->get();
 		if ($query->num_rows() > 0) {
 			return $query->result();
 		} else {
@@ -154,7 +132,7 @@ class Page_model extends CI_Model {
 			return 1;
 		}
 	}
-	public function getNavCheckData() {
-		return $this->db->from('nav')->where('id', $this->input->post('nav', TRUE))->limit(1)->count_all_results();
+	public function getSidebarCheckData() {
+		return $this->db->from('sidebar')->where('id', $this->input->post('sidebar', TRUE))->limit(1)->count_all_results();
 	}
 }

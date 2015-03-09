@@ -40,21 +40,17 @@ class Sort_model extends CI_Model {
 		}
 	}
 	public function eSave() {
-		try {
-			$data = array(
-				'sort' => $this->input->post('sort', TRUE),
-				'orderBy' => $this->input->post('orderBy', TRUE),
-				'sort2' => $this->input->post('sort2', TRUE),
-				'orderBy2' => $this->input->post('orderBy2', TRUE),
-				'updateTime' => date('Y-m-d H:i:s'),
-			);
-			$this->db->where('id', $this->input->post('id', TRUE));
-			$this->db->update('sort', $data);
+		$data = array(
+			'sort' => $this->input->post('sort', TRUE),
+			'orderBy' => $this->input->post('orderBy', TRUE),
+			'sort2' => $this->input->post('sort2', TRUE),
+			'orderBy2' => $this->input->post('orderBy2', TRUE),
+			'updateTime' => date('Y-m-d H:i:s'),
+		);
+		$this->db->where('id', $this->input->post('id', TRUE));
+		$this->db->update('sort', $data);
 
-			return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
-		} catch (Exception $e) {
-			exit($e->getMessage());
-		}
+		return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
 	}
 	public function getListSortName() {
 		return $this->sort;

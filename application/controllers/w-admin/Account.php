@@ -197,92 +197,19 @@ class Account extends CI_Controller {
 	}
 	// 單選切換狀態
 	public function changeStatus() {
-		if ($this->input->is_ajax_request()) {
-			// 檢查是否有權限
-			if ($this->common->checkLimits('account-edit') == FALSE) {
-				$this->message->getAjaxMsg(array(
-					'success' => FALSE,
-					'msg' => $this->message->msg['public'][2],
-				));
-			}
-			$result = $this->account_model->changeStatus();
-			if ($result == TRUE) {
-				$this->message->getAjaxMsg(array(
-					"success" => TRUE,
-					'act' => $this->message->status[$this->uri->segment(3)][1],
-					'name' => $this->message->status[$this->uri->segment(3)][2],
-					'updateTime' => date('Y-m-d H:i:s'),
-					"msg" => $this->message->msg['public'][$this->message->status[$this->uri->segment(3)][3]],
-				));
-			} else {
-				$this->message->getAjaxMsg(array(
-					"success" => FALSE,
-					"msg" => $this->message->msg['public'][8],
-				));
-			}
-		}
+		$this->common->changeStatus('account');
 	}
 	// 單選刪除
 	public function delete() {
-		if ($this->input->is_ajax_request()) {
-			// 檢查是否有權限
-			if ($this->common->checkLimits('account-del') == FALSE) {
-				$this->message->getAjaxMsg(array(
-					'success' => FALSE,
-					'msg' => $this->message->msg['public'][2],
-				));
-			}
-			$result = $this->account_model->delete();
-			if ($result == TRUE) {
-				$this->message->getAjaxMsg(array(
-					"success" => TRUE,
-					"msg" => $this->message->msg['public'][7],
-				));
-			} else {
-				$this->message->getAjaxMsg(array(
-					"success" => FALSE,
-					"msg" => $this->message->msg['public'][8],
-				));
-			}
-		}
+		$this->common->delete('account');
 	}
 	// 多選切換狀態
 	public function mChangeStatus() {
-		if ($this->input->method(TRUE) == 'POST') {
-			// 檢查是否有權限
-			if ($this->common->checkLimits('account-edit') == FALSE) {
-				$this->message->getMsg($this->message->msg['public'][2]);
-			}
-			if ($this->input->post('id[]') != NULL) {
-				$result = $this->account_model->mChangeStatus();
-				if ($result == TRUE) {
-					$this->message->getMsg($this->message->msg['public'][$this->message->status[$this->uri->segment(3)][1]]);
-				} else {
-					$this->message->getMsg($this->message->msg['public'][8]);
-				}
-			} else {
-				$this->message->getMsg($this->message->msg['public'][3]);
-			}
-		}
+		$this->common->mChangeStatus('account');
 	}
 	// 多選刪除
 	public function mDelete() {
-		if ($this->input->method(TRUE) == 'POST') {
-			// 檢查是否有權限
-			if ($this->common->checkLimits('account-del') == FALSE) {
-				$this->message->getMsg($this->message->msg['public'][2]);
-			}
-			if ($this->input->post('id[]') != NULL) {
-				$result = $this->account_model->mDelete();
-				if ($result == TRUE) {
-					$this->message->getMsg($this->message->msg['public'][7]);
-				} else {
-					$this->message->getMsg($this->message->msg['public'][8]);
-				}
-			} else {
-				$this->message->getMsg($this->message->msg['public'][3]);
-			}
-		}
+		$this->common->mDelete('account');
 	}
 	public function record() {
 		// 檢查是否有權限

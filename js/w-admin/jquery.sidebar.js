@@ -7,32 +7,17 @@ $(document).ready(function() {
 			{ name: 'insert', items: [ '-','Image', 'Table', 'quicktable' ] },
 			{ name: 'styles', items: [ 'FontSize', 'lineheight' ] },
 		],
-		extraPlugins : 'stat,qrc,lineheight',
-		on : {
-			instanceReady: function(ev) {
-				editor = ev.editor;
-			}
-		}
+		extraPlugins : 'stat,lineheight',
 	} );	
-	$("select.position").on("change", function() {
-		$this = $(this).find(":selected").val();
-		if($this == 2 || $this == 3) {
-			editor.setReadOnly(false);			
-			$(".nav").prop("disabled",false);
-		} else {
-			editor.setReadOnly();			
-			$(".nav").prop("disabled",true);
-		}
-	});
-	$("#layout").validate({
+	$("#sidebar").validate({
 		rules: {
-			seoTitle: {
+			title: {
 				required: true
 			},
-			seoKey: {
+			locked: {
 				required: true
 			},
-			seoDesc: {
+			nav: {
 				required: true
 			},
 			position: {
@@ -40,14 +25,14 @@ $(document).ready(function() {
 			}
 		},
 		messages: {
-			seoTitle: {
-				required: "請輸入標題!"
+			title: {
+				required: "請輸入側欄名稱!"
 			},
-			seoKey: {
-				required: "請輸入關鍵字!"
+			locked: {
+				required: "請選擇鎖定!"
 			},
-			seoDesc: {
-				required: "請輸入描述!"
+			nav: {
+				required: "請選擇選單!"
 			},
 			position: {
 				required: "請選擇側欄位置!"

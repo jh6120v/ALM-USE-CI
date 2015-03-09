@@ -15,7 +15,7 @@
             <th><span class="red">標籤</span></th>
             <td>
                 <input type="text" name="tag" class="regular-text-1"><br>
-                頁面固定網址：http://<?php echo $this->config->item("webDomain");?>/page/標籤
+                頁面固定網址：http://<?php echo $this->config->item("webDomain");?>/page/<span class="tag">標籤</span>
             </td>
         </tr>
         <tr>
@@ -50,35 +50,19 @@
             <th>內文</th>
             <td><textarea name="body" class="ckeditor"></textarea></td>
         </tr>
-        <?php if ($this->common->checkLimits('layout-edit') == TRUE): ?>
-            <tr>
-                <th><span class="red">側欄位置</span></th>
-                <td>
-                    <select name="position" class="position regular-select-1">
-                        <option value="">請選擇</option>
-                        <option value="0">共用設定</option>
-                        <option value="1">無側欄</option>
-                        <option value="2">左側</option>
-                        <option value="3">右側</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <th>選單</th>
-                <td>
-                    <select name="nav" class="nav regular-select-1" disabled>
-                        <option value="0">無選單</option>
-                        <?php foreach ($nav as $k => $v): ?>
+        <tr>
+            <th><span class="red">側欄設定</span></th>
+            <td>
+                <select name="sidebar" class="regular-select-1">
+                    <option value="0" selected>無側欄</option>
+                    <?php if ($sidebar != FALSE): ?>
+                        <?php foreach ($sidebar as $k => $v): ?>
                             <option value="<?php echo $v->id;?>"><?php echo $v->title;?></option>
                         <?php endforeach;?>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <th>側欄自訂內容</th>
-                <td><textarea name="content" id="ckeditor" disabled></textarea></td>
-            </tr>
-        <?php endif;?>
+                    <?php endif;?>
+                </select>
+            </td>
+        </tr>
     </table>
     <p class="submit">
         <input type="submit" id="goButton" class="button" data-page='page' value="新增資料">

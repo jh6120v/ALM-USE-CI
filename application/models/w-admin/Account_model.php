@@ -42,139 +42,91 @@ class Account_model extends CI_Model {
 		}
 	}
 	public function aSave() {
-		try {
-			// 欄位處理
-			$password = hash_hmac('md5', $this->input->post('pass1', TRUE), salt);
-			$locked = ($this->input->post('locked', TRUE) == NULL || $this->session->userdata('acl') != "administration") ? "1" : $this->input->post('locked', TRUE);
+		// 欄位處理
+		$password = hash_hmac('md5', $this->input->post('pass1', TRUE), salt);
 
-			$data = array(
-				'username' => $this->common->htmlFilter($this->input->post('username')),
-				'password' => $password,
-				'name' => $this->common->htmlFilter($this->input->post('name')),
-				'groups' => $this->common->htmlFilter($this->input->post('groups')),
-				'status' => $this->common->htmlFilter($this->input->post('status')),
-				'locked' => $locked,
-				'ip' => $this->input->ip_address(),
-				'updateTime' => date('Y-m-d H:i:s'),
-			);
-			$this->db->insert('account', $data);
-
-			return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
-		} catch (Exception $e) {
-			exit($e->getMessage());
+		$data = array(
+			'username' => $this->common->htmlFilter($this->input->post('username')),
+			'password' => $password,
+			'name' => $this->common->htmlFilter($this->input->post('name')),
+			'groups' => $this->common->htmlFilter($this->input->post('groups')),
+			'status' => $this->common->htmlFilter($this->input->post('status')),
+			'ip' => $this->input->ip_address(),
+			'updateTime' => date('Y-m-d H:i:s'),
+		);
+		// 欄位處理
+		if ($this->input->post('locked', TRUE) != NULL && $this->session->userdata('acl') == "administration") {
+			$data['locked'] = $this->input->post('locked', TRUE);
 		}
+		$this->db->insert('account', $data);
+
+		return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
 	}
 	public function eSave() {
-		try {
-			// 取原資料
-			$query = $this->db->select('password, locked')->from('account')->where(array('groups !=' => 'administration', 'id' => $this->input->post('id', TRUE)))->limit(1)->get();
-			if ($query->num_rows() > 0) {
-				$result = $query->row();
-			} else {
-				return FALSE;
-			}
-			// 欄位處理
-			$password = ($this->input->post('pass4', TRUE) != '') ? hash_hmac('md5', $this->input->post('pass4', TRUE), salt) : $result->password;
-			$locked = ($this->input->post('locked', TRUE) == NULL || $this->session->userdata('acl') != "administration") ? $result->locked : $this->input->post('locked', TRUE);
-			$data = array(
-				'password' => $password,
-				'name' => $this->common->htmlFilter($this->input->post('name')),
-				'groups' => $this->common->htmlFilter($this->input->post('groups')),
-				'status' => $this->common->htmlFilter($this->input->post('status')),
-				'locked' => $locked,
-				'ip' => $this->input->ip_address(),
-				'updateTime' => date('Y-m-d H:i:s'),
-			);
-			$this->db->where('id', $this->input->post('id', TRUE));
-			$this->db->update('account', $data);
-
-			return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
-		} catch (Exception $e) {
-			exit($e->getMessage());
+		$data = array(
+			'name' => $this->common->htmlFilter($this->input->post('name')),
+			'groups' => $this->common->htmlFilter($this->input->post('groups')),
+			'status' => $this->common->htmlFilter($this->input->post('status')),
+			'ip' => $this->input->ip_address(),
+			'updateTime' => date('Y-m-d H:i:s'),
+		);
+		// 欄位處理
+		if ($this->input->post('pass4', TRUE) != '') {
+			$data['password'] = hash_hmac('md5', $this->input->post('pass4', TRUE), salt);
 		}
+		if ($this->input->post('locked', TRUE) != NULL || $this->session->userdata('acl') == "administration") {
+			$data['locked'] = $this->input->post('locked', TRUE);
+		}
+		$this->db->where(array('groups !=' => 'administration', 'id' => $this->input->post('id', TRUE)));
+		$this->db->update('account', $data);
+
+		return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
 	}
 	public function pSave() {
-		try {
-			// 取原資料
-			$query = $this->db->select('password')->from('account')->where('id', $this->session->userdata('pID'))->limit(1)->get();
-			if ($query->num_rows() > 0) {
-				$result = $query->row();
-			} else {
-				return FALSE;
-			}
-			// 欄位處理
-			$password = ($this->input->post('pass4', TRUE) != '') ? hash_hmac('md5', $this->input->post('pass4', TRUE), salt) : $result->password;
-			$data = array(
-				'password' => $password,
-				'name' => $this->common->htmlFilter($this->input->post('name')),
-				'ip' => $this->input->ip_address(),
-				'updateTime' => date('Y-m-d H:i:s'),
-			);
-			$this->db->where('id', $this->session->userdata('pID'));
-			$this->db->update('account', $data);
-
-			return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
-		} catch (Exception $e) {
-			exit($e->getMessage());
+		$data = array(
+			'name' => $this->common->htmlFilter($this->input->post('name')),
+			'ip' => $this->input->ip_address(),
+			'updateTime' => date('Y-m-d H:i:s'),
+		);
+		if ($this->input->post('pass4', TRUE) != '') {
+			$data['password'] = hash_hmac('md5', $this->input->post('pass4', TRUE), salt);
 		}
+		$this->db->where('id', $this->session->userdata('pID'));
+		$this->db->update('account', $data);
+
+		return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
 	}
 	public function changeStatus() {
-		try {
-			$data = array(
-				'status' => $this->message->status[$this->uri->segment(3)][0],
-				'updateTime' => date('Y-m-d H:i:s'),
-			);
-			$this->db->where('id', $this->input->post('id', TRUE));
-			$this->db->update('account', $data);
+		$data = array(
+			'status' => $this->message->status[$this->uri->segment(3)][0],
+			'updateTime' => date('Y-m-d H:i:s'),
+		);
+		$this->db->where('id', $this->input->post('id', TRUE));
+		$this->db->update('account', $data);
 
-			return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
-		} catch (Exception $e) {
-			exit($e->getMessage());
-		}
+		return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
 	}
 	public function delete() {
-		try {
-			$this->db->where(array('locked' => '1', 'id' => $this->input->post('id', TRUE)));
-			$this->db->delete('account');
+		$this->db->where(array('locked' => '1', 'id' => $this->input->post('id', TRUE)));
+		$this->db->delete('account');
 
-			return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
-		} catch (Exception $e) {
-			exit($e->getMessage());
-		}
+		return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
 	}
 	public function mChangeStatus() {
-		try {
-			// 檢查查詢結果筆數是否與欲查訊id個數相同
-			$num = $this->db->from('account')->where_in('id', $this->input->post('id', TRUE))->count_all_results();
-			if ($num != count($this->input->post('id', TRUE))) {
-				return FALSE;
-			}
-			$data = array(
-				'status' => $this->message->status[$this->uri->segment(3)][0],
-				'updateTime' => date('Y-m-d H:i:s'),
-			);
-			$this->db->where_in('id', $this->input->post('id', TRUE));
-			$this->db->update('account', $data);
+		$data = array(
+			'status' => $this->message->status[$this->uri->segment(3)][0],
+			'updateTime' => date('Y-m-d H:i:s'),
+		);
+		$this->db->where_in('id', $this->input->post('id', TRUE));
+		$this->db->update('account', $data);
 
-			return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
-		} catch (Exception $e) {
-			exit($e->getMessage());
-		}
+		return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
 	}
 	public function mDelete() {
-		try {
-			// 檢查查詢結果筆數是否與欲查訊id個數相同
-			$num = $this->db->from('account')->where('locked', '1')->where_in('id', $this->input->post('id', TRUE))->count_all_results();
-			if ($num != count($this->input->post('id', TRUE))) {
-				return FALSE;
-			}
-			$this->db->where_in('id', $this->input->post('id', TRUE));
-			$this->db->delete('account');
+		$this->db->where('locked', '1')->where_in('id', $this->input->post('id', TRUE));
+		$this->db->delete('account');
 
-			return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
-		} catch (Exception $e) {
-			exit($e->getMessage());
-		}
+		return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
 	}
 	public function getRecordData($pageNum = '', $offset = '') {
 		$query = $this->db->from('account_record')->order_by('loginTime', 'DESC')->limit($pageNum, $offset)->get();

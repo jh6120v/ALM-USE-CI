@@ -33,9 +33,9 @@ class Menu_model extends CI_Model {
 			"tag" => "layouts",
 			"icon" => "icon-screen",
 			"subMenu" => array(
-				"版面管理" => array(
-					"tag" => "layout",
-					"url" => "/w-admin/layout",
+				"側欄設定" => array(
+					"tag" => "sidebar",
+					"url" => "/w-admin/sidebar",
 				),
 				"選單管理" => array(
 					"tag" => "nav",
