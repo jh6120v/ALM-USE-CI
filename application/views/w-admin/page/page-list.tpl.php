@@ -38,7 +38,9 @@ $(function(){
                 <?php foreach ($result as $k => $v): ?>
                     <tr id="page-<?php echo $v->id;?>">
                         <td class="column-cb">
-                            <input type="checkbox" name="id[]" class="checkboxID" value="<?php echo $v->id;?>">
+                            <?php if ($v->locked == 1): ?>
+                                <input type="checkbox" name="id[]" class="checkboxID" value="<?php echo $v->id;?>">
+                            <?php endif;?>
                         </td>
                         <td class="column-title">
                             <H1>
@@ -54,7 +56,9 @@ $(function(){
                                     <?php endif;?>
                                 <?php endif;?>
                                 <?php if ($this->session->userdata('acl') == 'administration' || in_array($tag . '-del', $this->session->userdata('acl'))): ?>
-                                    | <span class="red"><a class="del" onClick="del(<?php echo $v->id;?>)">刪除</a></span>
+                                    <?php if ($v->locked == 1): ?>
+                                        | <span class="red"><a class="del" onClick="del(<?php echo $v->id;?>)">刪除</a></span>
+                                    <?php endif;?>
                                 <?php endif;?>
                             </div>
                         </td>

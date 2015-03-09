@@ -34,7 +34,7 @@
                 <span class="inline"><input type="radio" name="status" id="status-1" class="group" value="1" <?php if ($result->status == 1):echo 'checked';endif;?>> <label for="status-1">關閉</label></span>
             </td>
         </tr>
-       <?php if ($this->session->userdata('acl') == 'administration'): ?>
+        <?php if ($this->session->userdata('acl') == 'administration'): ?>
             <tr>
                 <th><span class="red">鎖定</span></th>
                 <td>
