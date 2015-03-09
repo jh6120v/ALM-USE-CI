@@ -87,4 +87,12 @@ class Sort_model extends CI_Model {
 	public function getOrderByArray() {
 		return $this->orderByArray;
 	}
+	public function getSingleSort($type = '') {
+		$query = $this->db->select('sort,orderBy,sort2,orderBy2')->from('sort')->where('type', $type)->limit(1)->get();
+		if ($query->num_rows() > 0) {
+			return $query->row();
+		} else {
+			return FALSE;
+		}
+	}
 }

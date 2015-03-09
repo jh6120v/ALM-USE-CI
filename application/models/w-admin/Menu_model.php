@@ -85,7 +85,7 @@ class Menu_model extends CI_Model {
 			"subMenu" => array(
 				"橫幅廣告" => array(
 					"tag" => "banner",
-					"url" => "banner.php",
+					"url" => "/w-admin/banner",
 				),
 				"設計作品分類" => array(
 					"tag" => "works-category",

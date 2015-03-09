@@ -44,7 +44,7 @@ class Common {
 		);
 		return $this->CI->load->view('w-admin/common/menu.tpl.php', $data, TRUE);
 	}
-	//尋找地理座標
+	// 尋找地理座標
 	public function location($address = '') {
 		$url = "http://maps.googleapis.com/maps/api/geocode/json?address={$address}&sensor=false";
 		$ch = curl_init();
