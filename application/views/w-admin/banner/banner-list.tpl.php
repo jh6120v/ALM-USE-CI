@@ -45,7 +45,7 @@ $(function() {
                         <td class="column-title">
                             <H1>
                                 <a <?php if ($this->session->userdata('acl') == 'administration' || in_array($tag . '-edit', $this->session->userdata('acl'))): ?>href="/w-admin/banner/edit/<?php echo $v->id;?><?php echo ($this->uri->segment(3) != 'search') ? '/' . $this->uri->segment(3, 1) : '';?>"<?php endif;?>>
-                                    <?php echo $v->url;?>
+                                    <?php echo $this->common->imgUrl(array('type' => 'banner', 'file' => $v->fileName, 'width' => '120'));?>
                                 </a>
                             </H1>
                             <div class="action">

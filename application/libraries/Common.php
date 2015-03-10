@@ -200,4 +200,37 @@ class Common {
 			}
 		}
 	}
+	// 圖片路徑輸出
+	public function imgUrl($data = array()) {
+		$method = "img"; //img or url
+		$sn = "";
+		$size = "";
+		$title = "";
+		$scale = "";
+		$path = "Upload/{$data["type"]}";
+
+		$method = (isset($data["method"]) && $data["method"] != "") ? $data["method"] : $method;
+		$sn = (isset($data["sn"]) && $data["sn"] != "") ? "/{$data["sn"]}" : "";
+		$size = (isset($data["size"]) && $data["size"] != "") ? "/{$data["size"]}" : "";
+		$title = (isset($data["title"]) && $data["title"] != "") ? "title='{$data["title"]}'" : "";
+		$scale = (isset($data["width"]) && $data["width"] != "") ? "style='max-width:{$data["width"]}px;'" : "";
+		//$path = ($data["path"] == 2) ? "Upload/{$data["type"]}" : "../Upload/{$data["type"]}";
+
+		if (isset($data["file"]) && $data["file"] != "") {
+			if (file_exists(realpath($path . $sn . $size) . "/" . $data["file"]) == true) {
+				$finalPath = "/{$path}{$sn}{$size}/{$data['file']}";
+			} else {
+				$finalPath = "/{$path}/temp.jpg";
+			}
+		} else {
+			$finalPath = "/{$path}/temp.jpg";
+		}
+		if ($method == "img") {
+			$data = "<img src='{$finalPath}' {$title} {$scale}>";
+		} else if ($method == "url") {
+			$data = $finalPath;
+		}
+
+		return $data;
+	}
 }
