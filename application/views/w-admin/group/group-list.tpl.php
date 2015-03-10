@@ -7,7 +7,7 @@ $(function(){
 </script>
 <H1>
 	<?php echo $title;?>
-    <?php if ($this->session->userdata('acl') == 'administration' || in_array($tag . '-add', $this->session->userdata('acl'))): ?>
+    <?php if ($this->common->checkLimits($tag . '-add') == TRUE): ?>
         <a href="/w-admin/group/add">新增</a>
     <?php endif;?>
 </H1>
@@ -41,10 +41,10 @@ $(function(){
                         </td>
                         <td class="column-title">
                             <H1>
-                                <a <?php if ($this->session->userdata('acl') == 'administration' || in_array($tag . '-edit', $this->session->userdata('acl'))): ?>href="/w-admin/group/edit/<?php echo $v->id;?><?php echo ($this->uri->segment(3) != 'search') ? '/' . $this->uri->segment(3, 1) : '';?>"<?php endif;?>><?php echo $v->title;?></a>
+                                <a <?php if ($this->common->checkLimits($tag . '-edit') == TRUE): ?>href="/w-admin/group/edit/<?php echo $v->id;?><?php echo ($this->uri->segment(3) != 'search') ? '/' . $this->uri->segment(3, 1) : '';?>"<?php endif;?>><?php echo $v->title;?></a>
                             </H1>
                             <div class="action">
-                                <?php if ($this->session->userdata('acl') == 'administration' || in_array($tag . '-edit', $this->session->userdata('acl'))): ?>
+                                <?php if ($this->common->checkLimits($tag . '-edit') == TRUE): ?>
                                     <a class="green" href="/w-admin/group/edit/<?php echo $v->id;?><?php echo ($this->uri->segment(3) != 'search') ? '/' . $this->uri->segment(3, 1) : '';?>">編輯</a>
                                     <?php if ($v->status == 0): ?>
                                         | <span id="status-<?php echo $v->id;?>" class="green"><a onClick='changeStatus(<?php echo $v->id;?>,"close")'>已開啟</a></span>
@@ -52,7 +52,7 @@ $(function(){
                                         | <span id="status-<?php echo $v->id;?>" class="red"><a onClick='changeStatus(<?php echo $v->id;?>,"open")'>已關閉</a></span>
                                     <?php endif;?>
                                 <?php endif;?>
-                                <?php if ($this->session->userdata('acl') == 'administration' || in_array($tag . '-del', $this->session->userdata('acl'))): ?>
+                                <?php if ($this->common->checkLimits($tag . '-del') == TRUE): ?>
                                     | <span class="red"><a class="del" onClick="del(<?php echo $v->id;?>)">刪除</a></span>
                                 <?php endif;?>
                             </div>

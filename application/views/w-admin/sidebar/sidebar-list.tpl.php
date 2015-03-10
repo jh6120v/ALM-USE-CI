@@ -7,7 +7,7 @@ $(function(){
 </script>
 <H1>
     <?php echo $title;?>
-    <?php if ($this->session->userdata('acl') == 'administration' || in_array($tag . '-add', $this->session->userdata('acl'))): ?>
+    <?php if ($this->common->checkLimits($tag . '-add') == TRUE): ?>
         <a href="/w-admin/sidebar/add">新增</a>
     <?php endif;?>
 </H1>
@@ -43,13 +43,13 @@ $(function(){
                         </td>
                         <td class="column-title">
                             <H1>
-                                <a <?php if ($this->session->userdata('acl') == 'administration' || in_array($tag . '-edit', $this->session->userdata('acl'))):echo 'href="/w-admin/sidebar/edit/' . $v->id . '"';endif;?>><?php echo $v->title;?></a>
+                                <a <?php if ($this->common->checkLimits($tag . '-edit') == TRUE):echo 'href="/w-admin/sidebar/edit/' . $v->id . '"';endif;?>><?php echo $v->title;?></a>
                             </H1>
                             <div class="action">
-                                <?php if ($this->session->userdata('acl') == 'administration' || in_array($tag . '-edit', $this->session->userdata('acl'))): ?>
+                                <?php if ($this->common->checkLimits($tag . '-edit') == TRUE): ?>
                                     <a class="green" href="/w-admin/sidebar/edit/<?php echo $v->id;?><?php echo ($this->uri->segment(3) != 'search') ? '/' . $this->uri->segment(3, 1) : '';?>">編輯</a>
                                 <?php endif;?>
-                                <?php if ($this->session->userdata('acl') == 'administration' || in_array($tag . '-del', $this->session->userdata('acl'))): ?>
+                                <?php if ($this->common->checkLimits($tag . '-del') == TRUE): ?>
                                     <?php if ($v->locked == 1): ?>
                                         | <span class="red"><a class="del" onClick="del(<?php echo $v->id;?>)">刪除</a></span>
                                     <?php endif;?>

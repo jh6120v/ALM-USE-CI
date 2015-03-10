@@ -426,6 +426,7 @@ $config['csrf_exclude_uris'] = array(
 	'w-admin/[a-zA-Z0-9]+/[0-9]+',
 	'w-admin/[a-zA-Z0-9]+/search',
 	'w-admin/[a-zA-Z0-9]+/search/[0-9]+',
+	'w-admin/[a-zA-Z0-9]+/move',
 );
 
 /*

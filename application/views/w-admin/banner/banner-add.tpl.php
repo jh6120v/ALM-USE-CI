@@ -32,6 +32,6 @@
         </tr>
     </table>
     <p class="submit">
-        <input type="button" id="goButton" class="button" data-page='banner' value="新增資料">
+        <input type="submit" id="goButton" class="button" data-page='banner' value="新增資料">
     </p>
 </form>

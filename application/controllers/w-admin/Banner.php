@@ -281,23 +281,29 @@ class Banner extends CI_Controller {
 		}
 	}
 	public function move() {
-		$p = ($this->input->post('page', TRUE) != NULL && $this->input->post('page', TRUE) != '' && $this->input->post('page', TRUE) > 0 && ctype_digit($data["page"]) ? $this->input->post('page', TRUE) : 1;
-		// 取排序
-		$this->load->model('w-admin/sort_model');
-		$sort = $this->sort_model->getSingleSort('banner');
-		// 檢查主要排序是否為自訂排序
-		if ($sort->sort == "sort" && $sort->orderBy == "ASC") {
-			$sort = ($p - 1) * $this->pageNum + 1;
-		} elseif ($sort->sort == "sort" && $sort->orderBy == "DESC") {
-			// 計算總筆數
-			$num = $this->banner_model->getListTotal(); // 計算總筆數
-			$sort = $num - ($p - 1) * $this->pageNum;		
-		} else {
-			$sort = FALSE;
-		}
-		$result = $this->banner_model->mSave($sort);
-		if ($result == FALSE) {
-			return FALSE;
+		if ($this->input->is_ajax_request()) {
+			// 檢查是否有權限
+			if ($this->common->checkLimits('banner-edit') == FALSE) {
+				exit();
+			}
+			$p = ($this->input->post('page', TRUE) != NULL && $this->input->post('page', TRUE) != '' && $this->input->post('page', TRUE) > 0 && ctype_digit($this->input->post('page', TRUE))) ? $this->input->post('page', TRUE) : 1;
+			// 取排序
+			$this->load->model('w-admin/sort_model');
+			$sort = $this->sort_model->getSingleSort('banner');
+			// 檢查主要排序是否為自訂排序
+			if ($sort->sort == "sort" && $sort->orderBy == "ASC") {
+				$sortFirst = ($p - 1) * $this->pageNum + 1;
+			} elseif ($sort->sort == "sort" && $sort->orderBy == "DESC") {
+				// 計算總筆數
+				$num = $this->banner_model->getListTotal(); // 計算總筆數
+				$sortFirst = $num - ($p - 1) * $this->pageNum;
+			} else {
+				$sortFirst = FALSE;
+			}
+			$result = $this->banner_model->mSave($sort->orderBy, $sortFirst, $this->input->post('id', TRUE));
+			if ($result == FALSE) {
+				exit();
+			}
 		}
 
 	}

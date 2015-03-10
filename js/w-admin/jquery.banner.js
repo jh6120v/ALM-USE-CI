@@ -3,6 +3,7 @@ $(document).ready(function() {
 	$("#banner").validate({
 		rules: {
 			fileName: {
+				required: true,
 				extension: 'jpg|gif|png'
 			},
 			"sort": {
@@ -15,6 +16,7 @@ $(document).ready(function() {
 		},
 		messages: {
 			fileName: {
+				required: "請選擇檔案!",
 				extension: '請選擇JPG、GIF、PNG格式!'
 			},	
 			"sort": {

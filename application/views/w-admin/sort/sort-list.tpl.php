@@ -25,10 +25,10 @@ $(function(){
                         <td class="column-no"><?php echo $k + 1;?></td>
                         <td class="column-title">
                             <H1>
-                                <a <?php if ($this->session->userdata('acl') == 'administration' || in_array($tag . '-edit', $this->session->userdata('acl'))):echo 'href="/w-admin/sort/edit/' . $v->id . '"';endif;?>><?php echo $v->title;?></a>
+                                <a <?php if ($this->common->checkLimits($tag . '-edit') == TRUE):echo 'href="/w-admin/sort/edit/' . $v->id . '"';endif;?>><?php echo $v->title;?></a>
                             </H1>
                             <div class="action">
-                                <?php if ($this->session->userdata('acl') == 'administration' || in_array($tag . '-edit', $this->session->userdata('acl'))): ?>
+                                <?php if ($this->common->checkLimits($tag . '-edit') == TRUE): ?>
                                     <a class="green" href="/w-admin/sort/edit/<?php echo $v->id;?>">編輯</a>
                                 <?php endif;?>
                             </div>

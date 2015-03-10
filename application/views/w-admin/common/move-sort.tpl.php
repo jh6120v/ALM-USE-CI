@@ -10,9 +10,9 @@ $(function() {
 			} ).get();
 		$.ajax( {
 			type: "POST",
-			url: $("form").attr("action") + "/move",
+			url: $("form.form").attr("action") + "/move",
 			dataType: "json",
-			data: { "page":"<?php echo $this->uri->segment(3, 1);?>","c":"<?php echo $this->uri->segment(4, '');?>","id[]":data } ,
+			data: { "page":"<?php echo $this->uri->segment(3, 1);?>","c":"<?php echo $this->uri->segment(4, '');?>","id[]":data },
 			timeout:10000,     //ajax请求超时时间10秒
 			error: function() {
 				alert("error!");

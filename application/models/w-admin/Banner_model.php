@@ -107,15 +107,26 @@ class Banner_model extends CI_Model {
 
 		return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
 	}
-	public function mSave($sort = FALSE) {
+	public function mSave($orderBy, $sort = FALSE, $id = array()) {
 		if ($sort != FALSE) {
 			$this->db->trans_begin();
-			$this->db->where();
+
+			foreach ($id as $v) {
+				$data = array(
+					'sort' => $sort,
+				);
+				$this->db->where('id', substr($v, strrpos($v, "-") + 1));
+				$this->db->update('banner', $data);
+
+				$sort = ($orderBy == "ASC") ? ($sort + 1) : ($sort - 1);
+			}
 
 			if ($this->db->trans_status() === FALSE) {
 				$this->db->trans_rollback();
+				return FALSE;
 			} else {
 				$this->db->trans_commit();
+				return TRUE;
 			}
 		} else {
 			return FALSE;
