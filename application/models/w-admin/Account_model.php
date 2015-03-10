@@ -74,7 +74,7 @@ class Account_model extends CI_Model {
 		if ($this->input->post('pass4', TRUE) != '') {
 			$data['password'] = hash_hmac('md5', $this->input->post('pass4', TRUE), salt);
 		}
-		if ($this->input->post('locked', TRUE) != NULL || $this->session->userdata('acl') == "administration") {
+		if ($this->input->post('locked', TRUE) != NULL && $this->session->userdata('acl') == "administration") {
 			$data['locked'] = $this->input->post('locked', TRUE);
 		}
 		$this->db->where(array('groups !=' => 'administration', 'id' => $this->input->post('id', TRUE)));

@@ -88,8 +88,8 @@ class Menu_model extends CI_Model {
 					"url" => "/w-admin/banner",
 				),
 				"設計作品分類" => array(
-					"tag" => "works-category",
-					"url" => "works-category.php",
+					"tag" => "worksCategory",
+					"url" => "/w-admin/worksCategory",
 				),
 				"設計作品" => array(
 					"tag" => "works",

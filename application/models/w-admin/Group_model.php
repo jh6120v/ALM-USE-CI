@@ -118,11 +118,11 @@ class Group_model extends CI_Model {
 				),
 				array(
 					"name" => "設計作品分類",
-					"acl" => "works-category",
+					"acl" => "worksCategory",
 					"list_acl" => array(
-						"新增" => "works-category-add",
-						"修改" => "works-category-edit",
-						"刪除" => "works-category-del",
+						"新增" => "worksCategory-add",
+						"修改" => "worksCategory-edit",
+						"刪除" => "worksCategory-del",
 					),
 				),
 				array(

@@ -305,7 +305,6 @@ class Banner extends CI_Controller {
 				exit();
 			}
 		}
-
 	}
 	// 取全部資料
 	private function getListContent($act = 'list') {

@@ -43,7 +43,7 @@ class Page_model extends CI_Model {
 			'updateTime' => date('Y-m-d H:i:s'),
 		);
 		// 欄位處理
-		if ($this->input->post('locked', TRUE) != NULL || $this->session->userdata('acl') == "administration") {
+		if ($this->input->post('locked', TRUE) != NULL && $this->session->userdata('acl') == "administration") {
 			$data['locked'] = $this->input->post('locked', TRUE);
 		}
 		$this->db->insert('page', $data);

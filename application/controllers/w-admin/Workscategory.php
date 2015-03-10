@@ -1,15 +1,15 @@
 <?php
-class Page extends CI_Controller {
+class WorksCategory extends CI_Controller {
 	public $pageNum = 15;
 	public function __construct() {
 		parent::__construct();
 		// 判斷是否為登入狀態
 		$this->common->checkLoginStatus('i');
-		$this->load->model('w-admin/page_model');
+		$this->load->model('w-admin/worksCategory_model');
 	}
 	public function index() {
 		// 檢查是否有權限
-		if ($this->common->checkLimits('page') == FALSE) {
+		if ($this->common->checkLimits('worksCategory') == FALSE) {
 			$this->message->getMsg($this->message->msg['public'][2]);
 		}
 		// 取資料
@@ -18,13 +18,13 @@ class Page extends CI_Controller {
 		if (array_key_exists('HTTP_X_PJAX', $_SERVER) && $_SERVER['HTTP_X_PJAX']) {
 			$this->load->view('w-admin/pjax.tpl.php', $data);
 		} else {
-			$data['menu'] = $this->common->getMenuContent('pages', 'page');
+			$data['menu'] = $this->common->getMenuContent('function', 'worksCategory');
 			$this->load->view('w-admin/page.tpl.php', $data);
 		}
 	}
 	public function search() {
 		// 檢查是否有權限
-		if ($this->common->checkLimits('page') == FALSE) {
+		if ($this->common->checkLimits('worksCategory') == FALSE) {
 			$this->message->getMsg($this->message->msg['public'][2]);
 		}
 		// 取資料
@@ -33,17 +33,17 @@ class Page extends CI_Controller {
 		if (array_key_exists('HTTP_X_PJAX', $_SERVER) && $_SERVER['HTTP_X_PJAX']) {
 			$this->load->view('w-admin/pjax.tpl.php', $data);
 		} else {
-			$data['menu'] = $this->common->getMenuContent('pages', 'page');
+			$data['menu'] = $this->common->getMenuContent('function', 'worksCategory');
 			$this->load->view('w-admin/page.tpl.php', $data);
 		}
 	}
 	public function add() {
 		// 檢查是否有權限
-		if ($this->common->checkLimits('page-add') == FALSE) {
+		if ($this->common->checkLimits('worksCategory-add') == FALSE) {
 			$this->message->getMsg($this->message->msg['public'][2]);
 		}
 		// 取資料
-		$menu = $this->common->getMenuContent('pages', 'page-add');
+		$menu = $this->common->getMenuContent('function', 'worksCategory');
 		$content = $this->getAddFormContent();
 		$data = array(
 			'menu' => $menu,
@@ -56,27 +56,26 @@ class Page extends CI_Controller {
 		$this->load->library('form_validation');
 		if ($this->input->is_ajax_request()) {
 			//檢查是否有權限
-			if ($this->common->checkLimits('page-add') == FALSE) {
+			if ($this->common->checkLimits('worksCategory-add') == FALSE) {
 				$this->message->getAjaxMsg(array(
 					'success' => FALSE,
 					'msg' => $this->message->msg['public'][2],
 				));
 			}
 			// 檢查必要欄位是否填寫
-			$this->form_validation->set_rules('title', '頁面名稱', 'required');
-			$this->form_validation->set_rules('tag', '標籤', 'required|callback_tagCheck');
+			$this->form_validation->set_rules('catName', '分類名稱', 'required');
+			$this->form_validation->set_rules('sort', '排序', 'required|numeric');
 			$this->form_validation->set_rules('status', '狀態', 'required|numeric|in_list[0,1]');
 			if ($this->session->userdata('acl') == 'administration') {
 				$this->form_validation->set_rules('locked', '鎖定', 'required|numeric|in_list[0,1]');
 			}
-			$this->form_validation->set_rules('sidebar', '側欄設定', 'required|numeric|callback_sidebarCheck');
 			if ($this->form_validation->run()) {
-				$result = $this->page_model->aSave();
+				$result = $this->worksCategory_model->aSave();
 				if ($result == TRUE) {
 					$this->message->getAjaxMsg(array(
 						"success" => TRUE,
 						"msg" => $this->message->msg['public'][5],
-						"url" => '/w-admin/page',
+						"url" => '/w-admin/worksCategory',
 					));
 				} else {
 					$this->message->getAjaxMsg(array(
@@ -94,11 +93,11 @@ class Page extends CI_Controller {
 	}
 	public function edit() {
 		// 檢查是否有權限
-		if ($this->common->checkLimits('page-edit') == FALSE) {
+		if ($this->common->checkLimits('worksCategory-edit') == FALSE) {
 			$this->message->getMsg($this->message->msg['public'][2]);
 		}
 		// 取資料
-		$menu = $this->common->getMenuContent('pages', 'page');
+		$menu = $this->common->getMenuContent('function', 'worksCategory');
 		$content = $this->getEditFormContent();
 		$data = array(
 			'menu' => $menu,
@@ -110,7 +109,7 @@ class Page extends CI_Controller {
 	public function eSave() {
 		if ($this->input->is_ajax_request()) {
 			// 檢查是否有權限
-			if ($this->common->checkLimits('page-edit') == FALSE) {
+			if ($this->common->checkLimits('worksCategory-edit') == FALSE) {
 				$this->message->getAjaxMsg(array(
 					'success' => FALSE,
 					'msg' => $this->message->msg['public'][2],
@@ -118,20 +117,19 @@ class Page extends CI_Controller {
 			}
 			$this->load->library('form_validation');
 			// 檢查必要欄位是否填寫
-			$this->form_validation->set_rules('title', '頁面名稱', 'required');
-			$this->form_validation->set_rules('tag', '標籤', 'required|callback_tagCheck2');
-			$this->form_validation->set_rules('status', '狀態', 'required|numeric');
+			$this->form_validation->set_rules('catName', '分類名稱', 'required');
+			$this->form_validation->set_rules('sort', '排序', 'required|numeric');
+			$this->form_validation->set_rules('status', '狀態', 'required|numeric|in_list[0,1]');
 			if ($this->session->userdata('acl') == 'administration') {
-				$this->form_validation->set_rules('locked', '鎖定', 'required|numeric');
+				$this->form_validation->set_rules('locked', '鎖定', 'required|numeric|in_list[0,1]');
 			}
-			$this->form_validation->set_rules('sidebar', '側欄設定', 'required|numeric|callback_sidebarCheck');
 			if ($this->form_validation->run()) {
-				$result = $this->page_model->eSave();
+				$result = $this->worksCategory_model->eSave();
 				if ($result == TRUE) {
 					$this->message->getAjaxMsg(array(
 						"success" => TRUE,
 						"msg" => $this->message->msg['public'][6],
-						"url" => '/w-admin/page/' . $this->input->post('page', TRUE),
+						"url" => '/w-admin/worksCategory/' . $this->input->post('page', TRUE),
 					));
 				} else {
 					$this->message->getAjaxMsg(array(
@@ -149,19 +147,45 @@ class Page extends CI_Controller {
 	}
 	// 單選切換狀態
 	public function changeStatus() {
-		$this->common->changeStatus('page');
+		$this->common->changeStatus('worksCategory');
 	}
 	// 單選刪除
 	public function delete() {
-		$this->common->delete('page');
+		$this->common->delete('worksCategory');
 	}
 	// 多選切換狀態
 	public function mChangeStatus() {
-		$this->common->mChangeStatus('page');
+		$this->common->mChangeStatus('worksCategory');
 	}
 	// 多選刪除
 	public function mDelete() {
-		$this->common->mDelete('page');
+		$this->common->mDelete('worksCategory');
+	}
+	public function move() {
+		if ($this->input->is_ajax_request()) {
+			// 檢查是否有權限
+			if ($this->common->checkLimits('worksCategory-edit') == FALSE) {
+				exit();
+			}
+			$p = ($this->input->post('page', TRUE) != NULL && $this->input->post('page', TRUE) != '' && $this->input->post('page', TRUE) > 0 && ctype_digit($this->input->post('page', TRUE))) ? $this->input->post('page', TRUE) : 1;
+			// 取排序
+			$this->load->model('w-admin/sort_model');
+			$sort = $this->sort_model->getSingleSort('worksCategory');
+			// 檢查主要排序是否為自訂排序
+			if ($sort->sort == "sort" && $sort->orderBy == "ASC") {
+				$sortFirst = ($p - 1) * $this->pageNum + 1;
+			} elseif ($sort->sort == "sort" && $sort->orderBy == "DESC") {
+				// 計算總筆數
+				$num = $this->worksCategory_model->getListTotal(); // 計算總筆數
+				$sortFirst = $num - ($p - 1) * $this->pageNum;
+			} else {
+				$sortFirst = FALSE;
+			}
+			$result = $this->worksCategory_model->mSave($sort->orderBy, $sortFirst, $this->input->post('id', TRUE));
+			if ($result == FALSE) {
+				exit();
+			}
+		}
 	}
 	// 取全部資料
 	private function getListContent($act = 'list') {
@@ -170,18 +194,18 @@ class Page extends CI_Controller {
 		$q = $this->common->searchQueryHandler($this->input->get('q', TRUE));
 
 		if ($act == 'search') {
-			$config['base_url'] = '/w-admin/page/search?q=' . $q;
-			$config['total_rows'] = $this->page_model->getSearchTotal($q);
+			$config['base_url'] = '/w-admin/worksCategory/search?q=' . $q;
+			$config['total_rows'] = $this->worksCategory_model->getSearchTotal($q);
 			$config['page_query_string'] = TRUE;
 			$config['query_string_segment'] = 'page';
 			$page = $this->input->get('page', TRUE);
-			$title = '搜尋頁面';
+			$title = '搜尋設計作品分類';
 		} else {
-			$config['base_url'] = '/w-admin/page';
-			$config['total_rows'] = $this->page_model->getListTotal();
+			$config['base_url'] = '/w-admin/worksCategory';
+			$config['total_rows'] = $this->worksCategory_model->getListTotal();
 			$config['uri_segment'] = 3;
 			$page = $this->uri->segment(3, 1);
-			$title = '全部頁面';
+			$title = '設計作品分類';
 		}
 		$config['per_page'] = $this->pageNum;
 		$config['use_page_numbers'] = TRUE;
@@ -203,69 +227,38 @@ class Page extends CI_Controller {
 		}
 		$offset = $this->pageNum * ($page - 1);
 
+		// 取排序
+		$this->load->model('w-admin/sort_model');
+		$sort = $this->sort_model->getSingleSort('worksCategory');
+
 		$data = array(
 			'title' => $title,
-			'tag' => 'page',
+			'tag' => 'worksCategory',
 			'q' => $q,
-			'result' => $this->page_model->getPageData($act, $this->pageNum, $offset, $q),
+			'sort' => $sort,
+			'result' => $this->worksCategory_model->getWorksCategoryData($act, $this->pageNum, $offset, $q, $sort),
 		);
-		return $this->load->view('w-admin/page/page-list.tpl.php', $data, TRUE);
+		return $this->load->view('w-admin/worksCategory/worksCategory-list.tpl.php', $data, TRUE);
 	}
 	// 取新增表單
 	private function getAddFormContent() {
-		$sidebar = $this->page_model->getSidebar();
 		$data = array(
-			'title' => '新增頁面',
-			'sidebar' => $sidebar,
+			'title' => '新增設計作品分類',
 		);
-		return $this->load->view('w-admin/page/page-add.tpl.php', $data, TRUE);
+		return $this->load->view('w-admin/worksCategory/worksCategory-add.tpl.php', $data, TRUE);
 	}
 	// 取修改表單
 	private function getEditFormContent() {
-		$sidebar = $this->page_model->getSidebar();
-		$result = $this->page_model->getPageData('edit');
+		$result = $this->worksCategory_model->getWorksCategoryData('edit');
 		if ($result != FALSE) {
 			$data = array(
-				'title' => '編輯頁面',
+				'title' => '編輯設計作品分類',
 				'result' => $result,
-				'sidebar' => $sidebar,
 				'page' => $this->uri->segment(5),
 			);
-			return $this->load->view('w-admin/page/page-edit.tpl.php', $data, TRUE);
+			return $this->load->view('w-admin/worksCategory/worksCategory-edit.tpl.php', $data, TRUE);
 		} else {
 			$this->message->getMsg($this->message->msg['public'][0]);
-		}
-	}
-	// 驗證callback函數 -> 標籤是否重複
-	public function tagCheck() {
-		$num = $this->page_model->getTagCheckData();
-		if ($num > 0) {
-			$this->form_validation->set_message('tagCheck', '標籤重複!');
-			return FALSE;
-		} else {
-			return TRUE;
-		}
-	}
-	// 驗證callback函數 -> 標籤是否重複
-	public function tagCheck2() {
-		$num = $this->page_model->getTagCheckData('edit');
-		if ($num > 0) {
-			$this->form_validation->set_message('tagCheck', '標籤重複!');
-			return FALSE;
-		} else {
-			return TRUE;
-		}
-	}
-	// 驗證callback函數 -> 選單是否存在
-	public function sidebarCheck($str) {
-		if ($str != 0) {
-			$num = $this->page_model->getSidebarCheckData();
-			if ($num <= 0) {
-				$this->form_validation->set_message('sidebarCheck', '側欄設定檔不存在!');
-				return FALSE;
-			} else {
-				return TRUE;
-			}
 		}
 	}
 }
