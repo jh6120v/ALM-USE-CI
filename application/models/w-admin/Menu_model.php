@@ -87,9 +87,9 @@ class Menu_model extends CI_Model {
 					"tag" => "banner",
 					"url" => "/w-admin/banner",
 				),
-				"設計作品分類" => array(
-					"tag" => "worksCategory",
-					"url" => "/w-admin/worksCategory",
+				"分類管理" => array(
+					"tag" => "category",
+					"url" => "/w-admin/category",
 				),
 				"設計作品" => array(
 					"tag" => "works",

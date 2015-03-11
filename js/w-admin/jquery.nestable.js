@@ -41,7 +41,7 @@
             expandBtnHTML   : '',
             collapseBtnHTML : '',
             group           : 0,
-            maxDepth        : 3,
+            maxDepth        : 2,
             threshold       : 20
         };
 
